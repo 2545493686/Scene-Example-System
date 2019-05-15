@@ -10,6 +10,7 @@ public struct StuffData
     public string name;
     public Sprite sprite;
 }
+
 public class StuffImage : MonoBehaviour, IPointerDownHandler
 {
     public StuffData StuffData
@@ -45,16 +46,21 @@ public class StuffImage : MonoBehaviour, IPointerDownHandler
         }
     }
 
-
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        if (StuffData.sprite)
-        {
-            StageMaster.Instance.AddStuff(StuffData, 35);
-        }
-        else
-        {
-            StageMaster.Instance.AddDialogue("123456789");
-        }
+        OnPointerDown();
+    }
+
+    protected virtual void OnPointerDown()
+    {
+        GameObject stuff = new GameObject(StuffData.name);
+
+        stuff.AddComponent<Stuff>().StuffData = StuffData;
+
+        Image image = stuff.AddComponent<Image>();
+        image.sprite = StuffData.sprite;
+        image.SetNativeSize();
+
+        StageMaster.Instance.Add(image, 0.03f);
     }
 }

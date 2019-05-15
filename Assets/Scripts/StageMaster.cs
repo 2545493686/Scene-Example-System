@@ -64,16 +64,21 @@ public class StageMaster : MonoBehaviour
         dialogue.SetText(text);
     }
 
-    public void AddStuff(StuffData stuffData, int denominator)
+    public void Add(Image image)
     {
-        GameObject @object = new GameObject(stuffData.name);
-        @object.AddComponent<Stuff>().StuffData = stuffData;
-        @object.transform.SetParent(m_StageStuffsParents);
-        var image = @object.AddComponent<Image>();
-        image.sprite = stuffData.sprite;
-        image.SetNativeSize();
-        @object.GetComponent<RectTransform>().position = m_StageImage.GetComponent<RectTransform>().position;
-        @object.GetComponent<RectTransform>().localScale *= Screen.width / denominator / image.preferredWidth;
+        Add(image, -1);
+    }
+
+    public void Add(Image image, float screenRatio)
+    {
+        RectTransform rect = image.GetComponent<RectTransform>();
+
+        rect.SetParent(m_StageStuffsParents);
+        rect.position = m_StageImage.GetComponent<RectTransform>().position;
+        if (screenRatio >= 0)
+        {
+            rect.localScale *= Screen.width / image.preferredWidth * screenRatio;
+        }
     }
 
     public void Clear()

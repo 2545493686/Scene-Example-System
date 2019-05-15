@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StuffSidebar : MonoBehaviour
+public class SidebarBase : MonoBehaviour
 {
     public StuffImage stuffImagePrefabs;
 
     public RectTransform targetContent;
-    public float firstOneY;
-    public StuffData[] stuffDatas;
+    public float firstOneY = 94;
 
-    private void Start()
+    protected void CreateStuffImages(StuffData[] stuffDatas)
     {
         float y = firstOneY;
         foreach (var stuffData in stuffDatas)

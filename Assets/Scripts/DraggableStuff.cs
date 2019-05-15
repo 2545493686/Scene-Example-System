@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class DraggableStuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
+    public StuffData StuffData { get; set; }
+
     RectTransform m_RectTransform;
     Vector3 m_SelectedPosition;
     Vector3 m_Revise;

@@ -55,13 +55,16 @@ public class StageMaster : MonoBehaviour
         m_StageImage.sprite = stage.Image.sprite;
     }
 
-    public void AddStuff(Sprite sprite, string name)
+    public void AddStuff(StuffData stuffData)
     {
-        GameObject @object = new GameObject(name, typeof(DraggableStuff));
+        GameObject @object = new GameObject(stuffData.name);
+        @object.AddComponent<DraggableStuff>().StuffData = stuffData;
         @object.transform.SetParent(m_StageStuffsParents);
-        @object.AddComponent<Image>().sprite = sprite;
+        var image = @object.AddComponent<Image>();
+        image.sprite = stuffData.sprite;
+        image.SetNativeSize();
         @object.GetComponent<RectTransform>().position = m_StageImage.GetComponent<RectTransform>().position;
-        @object.GetComponent<RectTransform>().localScale *= 2;
+        @object.GetComponent<RectTransform>().localScale *= Screen.width / 15 / image.preferredWidth;
     }
 
     public void Clear()

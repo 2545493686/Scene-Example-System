@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Text;
 
 public class DialogueManager : MonoBehaviour
 {
-    public StuffManager stuffManager;
+    public StuffSidebar stuffManager;
 
     readonly string c_ConfigPath = System.Environment.CurrentDirectory + "\\Dialogue Config";
 
-    Dictionary<string, string> nameDialoguePairs;
+    Dictionary<string, List<DialogueData>> nameDialoguePairs;
 
     private void Start()
     {
@@ -18,38 +19,52 @@ public class DialogueManager : MonoBehaviour
             Directory.CreateDirectory(c_ConfigPath);
         }
 
-        nameDialoguePairs = new Dictionary<string, string>();
-        foreach (var stuffContentData in stuffManager.stuffContentDatas)
+        nameDialoguePairs = new Dictionary<string, List<DialogueData>>();
+        foreach (var stuffData in stuffManager.stuffDatas)
         {
-            foreach (var stuffData in stuffContentData.stuffDatas)
+            nameDialoguePairs.Add(stuffData.name, new List<DialogueData>());
+
+            if (!File.Exists(GetStuffConfigPath(stuffData)))
             {
-                if (!File.Exists(GetStuffConfigPath(stuffData)))
+                File.Create(GetStuffConfigPath(stuffData));
+                Debug.LogWarning("找不到物体:" + stuffData.name + "的配置! 已重新创建空文件!");
+            }
+            else
+            {
+                try
                 {
-                    File.Create(GetStuffConfigPath(stuffData));
-                    Debug.LogWarning("找不到物体:" + stuffData.name + "的配置! 已重新创建空文件!");
-                    nameDialoguePairs.Add(stuffData.name, null);
-                }
-                else
-                {
-                    try
+                    var config = File.ReadAllText(GetStuffConfigPath(stuffData), Encoding.GetEncoding("gb2312"));
+
+                    foreach (var line in config.Split('\n'))
                     {
-                        var config = File.ReadAllText(GetStuffConfigPath(stuffData));
-                        foreach (var item in config.Split('\n'))
+                        if (!line.Contains(":::"))
                         {
-                            if (item.Contains(":::"))
+                            throw new System.Exception("配置文件不正确: " + GetStuffConfigPath(stuffData));
+                        }
+                        else
+                        {
+                            var splitIndex = line.IndexOf(":::");
+                            DialogueData dialogueData = new DialogueData
                             {
-                                throw new System.Exception("配置文件不正确: " + GetStuffConfigPath(stuffData));
-                            }
-
-
+                                title = line.Substring(0, splitIndex),
+                                content = line.Substring(splitIndex + 3, line.Length - splitIndex - 3)
+                            };
+                            nameDialoguePairs[stuffData.name].Add(dialogueData);
                         }
                     }
-                    catch (System.Exception e)
-                    {
-                        Debug.Log(e.Message);
-                        nameDialoguePairs.Add(stuffData.name, null);
-                    }
                 }
+                catch (System.Exception e)
+                {
+                    Debug.LogError(e.Message);
+                }
+            }
+        }
+
+        foreach (var stuff in nameDialoguePairs)
+        {
+            foreach (var item in stuff.Value)
+            {
+                Debug.Log($"title: {item.title}, content: {item.content}");
             }
         }
     }
@@ -57,5 +72,12 @@ public class DialogueManager : MonoBehaviour
     private string GetStuffConfigPath(StuffData stuffData)
     {
         return c_ConfigPath + "\\" + stuffData.name + ".txt";
+    }
+
+    [System.Serializable]
+    struct DialogueData
+    {
+        public string title;
+        public string content;
     }
 }

@@ -8,7 +8,7 @@ public class SidebarMaster : MonoBehaviour
     public Dropdown dropdown;
     public string defaultSidebarName;
 
-    public Sidebar[] sidebars;
+    public Sidebar[] sidebarContents;
 
     Dictionary<string, GameObject> m_NamesScrollRectsPairs;
     Dictionary<int, string> m_OptionIdsNamesPairs;
@@ -29,7 +29,7 @@ public class SidebarMaster : MonoBehaviour
     private void InitializeNamesScrollRectsPairs()
     {
         m_NamesScrollRectsPairs = new Dictionary<string, GameObject>();
-        foreach (var item in sidebars)
+        foreach (var item in sidebarContents)
             m_NamesScrollRectsPairs.Add(item.name, item.scrollRect.gameObject);
     }
 
@@ -38,10 +38,10 @@ public class SidebarMaster : MonoBehaviour
         List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
         m_OptionIdsNamesPairs = new Dictionary<int, string>();
 
-        for (int i = 0; i < sidebars.Length; i++)
+        for (int i = 0; i < sidebarContents.Length; i++)
         {
-            options.Add(new Dropdown.OptionData(sidebars[i].optionName));
-            m_OptionIdsNamesPairs.Add(i, sidebars[i].name);
+            options.Add(new Dropdown.OptionData(sidebarContents[i].optionName));
+            m_OptionIdsNamesPairs.Add(i, sidebarContents[i].name);
         }
 
         dropdown.options = options;

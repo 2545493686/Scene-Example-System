@@ -19,14 +19,42 @@ public class StuffImage : MonoBehaviour, IPointerDownHandler
         {
             _StuffData = value;
             gameObject.name = StuffData.name;
-            transform.Find("Image").GetComponent<Image>().sprite = StuffData.sprite;
-            transform.Find("Text").GetComponent<Text>().text = StuffData.name;
+
+            SetText();
+            SetImage();
         }
     }
-    public StuffData _StuffData;
+    StuffData _StuffData;
+
+    private void SetImage()
+    {
+        if (StuffData.sprite)
+        {
+            transform.Find("Image").GetComponent<Image>().sprite = StuffData.sprite;
+        }
+    }
+
+    private void SetText()
+    {
+        var text = transform.Find("Text").GetComponent<Text>();
+        text.text = StuffData.name;
+        if (!StuffData.sprite)
+        {
+            text.alignment = TextAnchor.MiddleCenter;
+            text.fontSize = 23;
+        }
+    }
+
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        StageMaster.Instance.AddStuff(StuffData);
+        if (StuffData.sprite)
+        {
+            StageMaster.Instance.AddStuff(StuffData, 35);
+        }
+        else
+        {
+            StageMaster.Instance.AddDialogue("123456789");
+        }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Image))]
 public class StageMaster : MonoBehaviour
 {
+    public Dialogue dialoguePrefabs;
     public RectTransform stageContent;
     public Text notingText;
 
@@ -55,16 +56,24 @@ public class StageMaster : MonoBehaviour
         m_StageImage.sprite = stage.Image.sprite;
     }
 
-    public void AddStuff(StuffData stuffData)
+    public void AddDialogue(string text)
+    {
+        var dialogue = Instantiate(dialoguePrefabs);
+        dialogue.transform.SetParent(m_StageStuffsParents);
+        dialogue.GetComponent<RectTransform>().position = m_StageImage.GetComponent<RectTransform>().position;
+        dialogue.SetText(text);
+    }
+
+    public void AddStuff(StuffData stuffData, int denominator)
     {
         GameObject @object = new GameObject(stuffData.name);
-        @object.AddComponent<DraggableStuff>().StuffData = stuffData;
+        @object.AddComponent<Stuff>().StuffData = stuffData;
         @object.transform.SetParent(m_StageStuffsParents);
         var image = @object.AddComponent<Image>();
         image.sprite = stuffData.sprite;
         image.SetNativeSize();
         @object.GetComponent<RectTransform>().position = m_StageImage.GetComponent<RectTransform>().position;
-        @object.GetComponent<RectTransform>().localScale *= Screen.width / 15 / image.preferredWidth;
+        @object.GetComponent<RectTransform>().localScale *= Screen.width / denominator / image.preferredWidth;
     }
 
     public void Clear()

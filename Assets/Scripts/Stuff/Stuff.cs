@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableStuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
+public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     public StuffData StuffData { get; set; }
 
@@ -29,13 +29,13 @@ public class DraggableStuff : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         m_Selected = false;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         m_RectTransform = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (m_Selected && Input.mousePosition != m_SelectedPosition)
         {

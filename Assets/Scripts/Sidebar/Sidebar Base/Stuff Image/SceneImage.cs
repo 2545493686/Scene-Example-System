@@ -8,6 +8,6 @@ public class SceneImage : StuffImage
 {
     protected override void OnPointerClick()
     {
-        StageMaster.Instance.SetStage(Data.sprite);
+        StageMaster.Instance.SetStage(Data.texture);
     }
 }

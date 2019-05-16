@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(Image))]
+[RequireComponent(typeof(RawImage))]
 public class StageMaster : MonoBehaviour
 {
     public RectTransform stageContent;
@@ -13,7 +13,7 @@ public class StageMaster : MonoBehaviour
     public static StageMaster Instance;
 
     Transform m_StageStuffsParents;
-    Image m_StageImage;
+    RawImage m_StageImage;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class StageMaster : MonoBehaviour
 
         InitializeStuffs();
 
-        m_StageImage = GetComponent<Image>();
+        m_StageImage = GetComponent<RawImage>();
     }
 
     private void InitializeStuffs()
@@ -49,10 +49,11 @@ public class StageMaster : MonoBehaviour
     //    }
     //}
 
-    public void SetStage(Sprite sprite)
+    public void SetStage(Texture texture)
     {
         notingText.gameObject.SetActive(false);
-        m_StageImage.sprite = sprite;
+        m_StageImage.texture = texture;
+        //m_StageImage.sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
     }
 
     public void Add(Stuff stuff)

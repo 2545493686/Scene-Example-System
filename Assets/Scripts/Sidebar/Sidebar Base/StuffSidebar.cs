@@ -30,7 +30,7 @@ public class StuffSidebar : SiderbarBase
                     stuffDatas.Add(new StuffImageData
                     {
                         name = item,
-                        sprite = m_StuffModel.GetData(item)
+                        texture = m_StuffModel.GetData(item)
                     });
                 }
                 //SetContentParentHeight(stuffDatas.Count);

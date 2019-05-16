@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public struct StuffImageData
 {
     public string name;
-    public Sprite sprite;
+    public Texture texture;
 }
 
 public class StuffImage : MonoBehaviour, IPointerClickHandler
@@ -31,9 +31,33 @@ public class StuffImage : MonoBehaviour, IPointerClickHandler
 
     private void SetImage()
     {
-        if (Data.sprite)
+        if (Data.texture)
         {
-            transform.Find("Image").GetComponent<Image>().sprite = Data.sprite;
+
+            RawImage image = GetComponentInChildren<RawImage>();
+
+            RectTransform rect = image.GetComponent<RectTransform>();
+
+            if (Data.texture.height > Data.texture.width)
+            {
+                rect.sizeDelta = new Vector2
+                {
+                    x = Data.texture.width / (Data.texture.height / rect.sizeDelta.y),
+                    y = rect.sizeDelta.y
+                };
+            }
+            else
+            {
+                rect.sizeDelta = new Vector2
+                {
+                    x = rect.sizeDelta.x,
+                    y = Data.texture.height / (Data.texture.width / rect.sizeDelta.x)
+                };
+            }
+
+            image.texture = Data.texture;
+
+            //image.SetNativeSize();
         }
     }
 
@@ -53,7 +77,7 @@ public class StuffImage : MonoBehaviour, IPointerClickHandler
 
         text.text = name;
 
-        if (!Data.sprite)
+        if (!Data.texture)
         {
             text.alignment = TextAnchor.MiddleCenter;
             text.fontSize = 23;
@@ -67,11 +91,11 @@ public class StuffImage : MonoBehaviour, IPointerClickHandler
         var stuff = @object.AddComponent<Stuff>();
         stuff.StuffData = Data;
 
-        Image image = @object.AddComponent<Image>();
-        image.sprite = Data.sprite;
+        RawImage image = @object.AddComponent<RawImage>();
+        image.texture = Data.texture;
         image.SetNativeSize();
 
-        @object.transform.localScale *= Screen.height / image.preferredHeight * ScreenRatio;
+        @object.transform.localScale *= Screen.height / image.texture.height * ScreenRatio;
 
         StageMaster.Instance.Add(stuff);
     }

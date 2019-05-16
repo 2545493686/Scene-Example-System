@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ImageModel : ConfigModelBase<Sprite>
+public class ImageModel : ConfigModelBase<Texture>
 {
     public string configFolderName;
     public string[] searchPatterns = new string[]
@@ -18,10 +18,10 @@ public class ImageModel : ConfigModelBase<Sprite>
 
     protected override string ConfigFolderName => configFolderName;
 
-    protected override Dictionary<string, Sprite> Datas => datas;
-    Dictionary<string, Sprite> datas;
+    protected override Dictionary<string, Texture> Datas => datas;
+    Dictionary<string, Texture> datas;
 
-    Sprite m_SpirteData;
+    Texture m_TextureData;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class ImageModel : ConfigModelBase<Sprite>
 
     protected IEnumerator Initialize()
     {
-        datas = new Dictionary<string, Sprite>();
+        datas = new Dictionary<string, Texture>();
 
         foreach (var searchPattern in searchPatterns)
         {
@@ -43,7 +43,7 @@ public class ImageModel : ConfigModelBase<Sprite>
                 datas.Add
                 (
                     key: fileInfo.Name.Substring(0, fileInfo.Name.Length - searchPattern.Length + 1), 
-                    value: m_SpirteData
+                    value: m_TextureData
                 );
             }
         }
@@ -55,8 +55,8 @@ public class ImageModel : ConfigModelBase<Sprite>
     {
         UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(@"file://" + fileInfo.FullName);
         yield return webRequest.SendWebRequest();
-        Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
-        m_SpirteData = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        m_TextureData = DownloadHandlerTexture.GetContent(webRequest);
+        //m_TextureData = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
     }
 
     private void Start()

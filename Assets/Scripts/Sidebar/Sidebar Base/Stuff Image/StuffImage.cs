@@ -13,7 +13,7 @@ public struct StuffImageData
 
 public class StuffImage : MonoBehaviour, IPointerClickHandler
 {
-    readonly float c_ScreenRatio = 0.15f;
+    public float ScreenRatio { get; set; } = 0.05f;
 
     public StuffImageData Data
     {
@@ -59,7 +59,7 @@ public class StuffImage : MonoBehaviour, IPointerClickHandler
         image.sprite = Data.sprite;
         image.SetNativeSize();
 
-        @object.transform.localScale *= Screen.height / image.preferredHeight * c_ScreenRatio;
+        @object.transform.localScale *= Screen.height / image.preferredHeight * ScreenRatio;
 
         StageMaster.Instance.Add(stuff);
     }

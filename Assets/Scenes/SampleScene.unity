@@ -1452,6 +1452,7 @@ MonoBehaviour:
   spacing: 12
   stuffImagePrefabs: {fileID: 6190633292333912594, guid: e2e4c86fd02d5504ea263488e60b721a,
     type: 3}
+  stuffScreenRatio: 0.05
 --- !u!114 &796004755
 MonoBehaviour:
   m_ObjectHideFlags: 0

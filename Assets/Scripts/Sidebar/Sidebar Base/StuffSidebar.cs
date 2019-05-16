@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(StuffModel))]
 public class StuffSidebar : SiderbarBase
 {
+    [Range(0, 1)]
+    public float stuffScreenRatio = 0.05f;
+
     StuffModel m_StuffModel;
 
     bool m_LoadFlag = false;
@@ -31,7 +34,10 @@ public class StuffSidebar : SiderbarBase
                     });
                 }
                 //SetContentParentHeight(stuffDatas.Count);
-                CreateStuffImages(stuffDatas.ToArray());
+                foreach (var item in CreateStuffImages(stuffDatas.ToArray()))
+                {
+                    item.ScreenRatio = stuffScreenRatio;
+                }
 
                 m_LoadFlag = true;
             }

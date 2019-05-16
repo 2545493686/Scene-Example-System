@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StuffSidebar : SidebarBase
+public class StuffSidebar : SiderbarBase
 {
-    public StuffData[] stuffDatas;
+    public StuffImageData[] stuffDatas;
 
     private void Start()
     {

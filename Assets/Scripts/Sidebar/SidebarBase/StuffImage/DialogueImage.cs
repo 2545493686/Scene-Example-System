@@ -5,8 +5,14 @@ using UnityEngine.EventSystems;
 
 public class DialogueImage : StuffImage
 {
+    public Dialogue DialoguePrefabs { get; set; }
+    public string Content { get; set; }
+
     protected override void OnPointerDown()
     {
-        StageMaster.Instance.AddDialogue("2333333");
+        var dialogue = Instantiate(DialoguePrefabs);
+        dialogue.SetText(Content);
+
+        StageMaster.Instance.Add(dialogue);
     }
 }

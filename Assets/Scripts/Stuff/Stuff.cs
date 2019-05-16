@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
-    public StuffData StuffData { get; set; }
+    public StuffImageData StuffData { get; set; }
 
     RectTransform m_RectTransform;
     Vector3 m_SelectedPosition;

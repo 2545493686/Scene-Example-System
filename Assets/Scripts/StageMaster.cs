@@ -56,29 +56,12 @@ public class StageMaster : MonoBehaviour
         m_StageImage.sprite = stage.Image.sprite;
     }
 
-    public void AddDialogue(string text)
+    public void Add(Stuff stuff)
     {
-        var dialogue = Instantiate(dialoguePrefabs);
-        dialogue.transform.SetParent(m_StageStuffsParents);
-        dialogue.GetComponent<RectTransform>().position = m_StageImage.GetComponent<RectTransform>().position;
-        dialogue.SetText(text);
-    }
-
-    public void Add(Image image)
-    {
-        Add(image, -1);
-    }
-
-    public void Add(Image image, float screenRatio)
-    {
-        RectTransform rect = image.GetComponent<RectTransform>();
+        RectTransform rect = stuff.GetComponent<RectTransform>();
 
         rect.SetParent(m_StageStuffsParents);
         rect.position = m_StageImage.GetComponent<RectTransform>().position;
-        if (screenRatio >= 0)
-        {
-            rect.localScale *= Screen.width / image.preferredWidth * screenRatio;
-        }
     }
 
     public void Clear()

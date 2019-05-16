@@ -32,7 +32,7 @@ public class DialogueModel : MonoBehaviour
 
         foreach (FileInfo item in files)
         {
-            m_NameDialoguePairs.Add(item.Name.Substring(0, item.Name.Length - 3), File.ReadAllText(item.FullName, Encoding.GetEncoding("gb2312")));
+            m_NameDialoguePairs.Add(item.Name.Substring(0, item.Name.Length - 4), File.ReadAllText(item.FullName, Encoding.GetEncoding("gb2312")));
         }
     }
 
@@ -59,15 +59,8 @@ public class DialogueModel : MonoBehaviour
         return m_NameDialoguePairs[title];
     }
 
-    private string GetStuffConfigPath(StuffData stuffData)
+    private string GetStuffConfigPath(StuffImageData stuffData)
     {
         return c_ConfigPath + "\\" + stuffData.name + ".txt";
-    }
-
-    [System.Serializable]
-    struct DialogueData
-    {
-        public string title;
-        public string content;
     }
 }

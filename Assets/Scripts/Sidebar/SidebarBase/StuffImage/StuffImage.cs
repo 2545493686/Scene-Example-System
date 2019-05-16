@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 [System.Serializable]
-public struct StuffData
+public struct StuffImageData
 {
     public string name;
     public Sprite sprite;
@@ -13,33 +13,35 @@ public struct StuffData
 
 public class StuffImage : MonoBehaviour, IPointerDownHandler
 {
-    public StuffData StuffData
+    public float ScreenRatio { get; set; } = 0.03f;
+
+    public StuffImageData Data
     {
-        get => _StuffData;
+        get => _Data;
         set
         {
-            _StuffData = value;
-            gameObject.name = StuffData.name;
+            _Data = value;
+            gameObject.name = Data.name;
 
             SetText();
             SetImage();
         }
     }
-    StuffData _StuffData;
+    StuffImageData _Data;
 
     private void SetImage()
     {
-        if (StuffData.sprite)
+        if (Data.sprite)
         {
-            transform.Find("Image").GetComponent<Image>().sprite = StuffData.sprite;
+            transform.Find("Image").GetComponent<Image>().sprite = Data.sprite;
         }
     }
 
     private void SetText()
     {
         var text = transform.Find("Text").GetComponent<Text>();
-        text.text = StuffData.name;
-        if (!StuffData.sprite)
+        text.text = Data.name;
+        if (!Data.sprite)
         {
             text.alignment = TextAnchor.MiddleCenter;
             text.fontSize = 23;
@@ -53,14 +55,17 @@ public class StuffImage : MonoBehaviour, IPointerDownHandler
 
     protected virtual void OnPointerDown()
     {
-        GameObject stuff = new GameObject(StuffData.name);
+        GameObject @object = new GameObject(Data.name);
 
-        stuff.AddComponent<Stuff>().StuffData = StuffData;
+        var stuff = @object.AddComponent<Stuff>();
+        stuff.StuffData = Data;
 
-        Image image = stuff.AddComponent<Image>();
-        image.sprite = StuffData.sprite;
+        Image image = @object.AddComponent<Image>();
+        image.sprite = Data.sprite;
         image.SetNativeSize();
 
-        StageMaster.Instance.Add(image, 0.03f);
+        @object.transform.localScale *= Screen.width / image.preferredWidth * ScreenRatio;
+
+        StageMaster.Instance.Add(stuff);
     }
 }

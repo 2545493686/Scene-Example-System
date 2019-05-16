@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1448,10 +1448,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb6afb32b35ba24fafc0c58998a5c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stuffImagePrefabs: {fileID: 6190633292333912594, guid: e2e4c86fd02d5504ea263488e60b721a,
-    type: 3}
   targetContent: {fileID: 608124889}
   firstOneY: 94
+  spacing: 12
+  stuffImagePrefabs: {fileID: 6190633292333912594, guid: e2e4c86fd02d5504ea263488e60b721a,
+    type: 3}
   stuffDatas:
   - name: "\u7ECF\u7406"
     sprite: {fileID: 21300000, guid: 667dcaf349267fb40a6adf4e675ccf52, type: 3}
@@ -1656,10 +1657,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78a5839921eb53438324b48d8ad51ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stuffImagePrefabs: {fileID: 3800965607216290370, guid: 2ab3c2d76e9e735498970b93c9398485,
-    type: 3}
   targetContent: {fileID: 1393942775}
   firstOneY: 94
+  spacing: 12
+  dialoguePrefabs: {fileID: 897267587082079510, guid: d02f5d0e3e221cb4d947fb4dd23f3fd1,
+    type: 3}
+  dialogueImagePrefabs: {fileID: 3800965607216290370, guid: 2ab3c2d76e9e735498970b93c9398485,
+    type: 3}
 --- !u!114 &897796780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2046,7 +2050,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1348630897}
   m_Layer: 5
-  m_Name: Scroll Views
+  m_Name: Sidebars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

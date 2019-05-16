@@ -66,6 +66,8 @@ public class StageMaster : MonoBehaviour
 
     public void Clear()
     {
+        m_StageImage.texture = null;
+
         notingText.gameObject.SetActive(true);
 
         for (int i = 0; i < m_StageStuffsParents.childCount; i++)

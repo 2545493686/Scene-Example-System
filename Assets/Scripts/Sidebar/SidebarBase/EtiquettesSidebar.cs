@@ -14,10 +14,18 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
     {
         DialogueModel dialogueModel = GetComponent<DialogueModel>();
 
-        StuffImageData[] stuffDatas = new StuffImageData[dialogueModel.GetAllDialogueTitles().Length];
+        string[] dialogueTitles = dialogueModel.GetAllDialogueTitles();
+
+        StuffImageData[] stuffDatas = new StuffImageData[dialogueTitles.Length];
+
+        targetContent.sizeDelta = new Vector2
+        {
+            x = targetContent.sizeDelta.x,
+            y = (dialogueImagePrefabs.GetComponent<RectTransform>().sizeDelta.y + spacing) * dialogueTitles.Length
+        };
 
         int i = 0;
-        foreach (var item in dialogueModel.GetAllDialogueTitles())
+        foreach (var item in dialogueTitles)
         {
             stuffDatas[i++] = new StuffImageData { name = item };
         }

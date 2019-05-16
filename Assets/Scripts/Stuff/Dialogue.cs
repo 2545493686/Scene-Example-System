@@ -7,6 +7,6 @@ public class Dialogue : Stuff
 {
     public void SetText(string text)
     {
-        transform.Find("Text").GetComponent<Text>().text = text;
+        transform.Find("InputField").GetComponent<InputField>().text = text;
     }
 }

@@ -14,7 +14,7 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
     {
         DialogueModel dialogueModel = GetComponent<DialogueModel>();
 
-        string[] dialogueTitles = dialogueModel.GetAllDialogueTitles();
+        string[] dialogueTitles = dialogueModel.GetAllTitles();
 
         StuffImageData[] stuffDatas = new StuffImageData[dialogueTitles.Length];
 
@@ -30,7 +30,7 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
 
         foreach (DialogueImage item in dialogueImages)
         {
-            item.Content = dialogueModel.GetDialogue(item.Data.name);
+            item.Content = dialogueModel.GetData(item.Data.name);
             item.DialoguePrefabs = dialoguePrefabs;
         }
     }

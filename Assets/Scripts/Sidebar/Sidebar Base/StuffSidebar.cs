@@ -8,6 +8,8 @@ public class StuffSidebar : SiderbarBase
 
     private void Start()
     {
+
+
         SetContentParents(stuffDatas.Length);
         CreateStuffImages(stuffDatas);
     }

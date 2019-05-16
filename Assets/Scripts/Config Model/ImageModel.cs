@@ -5,8 +5,9 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class StuffModel : ConfigModelBase<Sprite>
+public class ImageModel : ConfigModelBase<Sprite>
 {
+    public string configFolderName;
     public string[] searchPatterns = new string[]
     {
         "*.png",
@@ -15,7 +16,7 @@ public class StuffModel : ConfigModelBase<Sprite>
 
     public bool IsLoaded { get; private set; }
 
-    protected override string ConfigFolderName => "Stuff";
+    protected override string ConfigFolderName => configFolderName;
 
     protected override Dictionary<string, Sprite> Datas => datas;
     Dictionary<string, Sprite> datas;

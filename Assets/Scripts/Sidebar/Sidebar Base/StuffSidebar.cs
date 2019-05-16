@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(StuffModel))]
+[RequireComponent(typeof(ImageModel))]
 public class StuffSidebar : SiderbarBase
 {
     [Range(0, 1)]
     public float stuffScreenRatio = 0.05f;
 
-    StuffModel m_StuffModel;
+    ImageModel m_StuffModel;
 
     bool m_LoadFlag = false;
 
     private void Start()
     {
-        m_StuffModel = GetComponent<StuffModel>();
+        m_StuffModel = GetComponent<ImageModel>();
     }
 
     private void Update()

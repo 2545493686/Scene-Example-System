@@ -40,7 +40,19 @@ public class StuffImage : MonoBehaviour, IPointerClickHandler
     private void SetText()
     {
         var text = transform.Find("Text").GetComponent<Text>();
-        text.text = Data.name;
+
+        string name = Data.name;
+
+        if (name.Contains("-"))
+        {
+            if (int.TryParse(name.Substring(0, name.IndexOf('-')), out int result))
+            {
+                name = name.Substring(name.IndexOf('-') + 1, name.Length - (name.IndexOf('-') + 1));
+            }
+        }
+
+        text.text = name;
+
         if (!Data.sprite)
         {
             text.alignment = TextAnchor.MiddleCenter;

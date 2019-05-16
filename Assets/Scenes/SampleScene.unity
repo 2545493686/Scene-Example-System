@@ -2421,7 +2421,7 @@ MonoBehaviour:
     type: 3}
   sceneImageDatas:
   - name: "\u603B\u573A\u666F"
-    sprite: {fileID: 21300000, guid: fddf2237de4bba44dae797f8ab4b5996, type: 3}
+    sprite: {fileID: 21300000, guid: 748b63fbea4543a47b70de4db97ae799, type: 3}
   - name: "\u5927\u5385"
     sprite: {fileID: 21300000, guid: 6444e5915caa79841be8d2bd1df3694c, type: 3}
   - name: "\u5458\u5DE5\u529E\u516C\u533A"

@@ -46,15 +46,41 @@ public abstract class ConfigModelBase<T> : MonoBehaviour
 
     public string[] GetAllTitles()
     {
-        string[] ret = new string[Datas.Count];
+        List<string> ret = new List<string>();
 
-        int i = 0;
         foreach (var item in Datas.Keys)
         {
-            ret[i++] = item;
+            ret.Add(item);
         }
 
-        return ret;
+        ret.Sort((a, b) =>
+        {
+            if (!a.Contains("-"))
+                return 1;
+
+            if (!b.Contains("-"))
+                return -1;
+
+            if (!TryParse(a, out int aNumber))
+                return 1;
+
+            if (!TryParse(b, out int bNumber))
+                return -1;
+
+            return aNumber.CompareTo(bNumber);
+        });
+
+        foreach (var item in ret)
+        {
+            Debug.Log(item);
+        }
+
+        return ret.ToArray();
+    }
+
+    private static bool TryParse(string a, out int result)
+    {
+        return int.TryParse(a.Substring(0, a.IndexOf('-')), out result);
     }
 
     public T GetData(string title)

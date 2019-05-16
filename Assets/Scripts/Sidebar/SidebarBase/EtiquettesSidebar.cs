@@ -18,11 +18,7 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
 
         StuffImageData[] stuffDatas = new StuffImageData[dialogueTitles.Length];
 
-        targetContent.sizeDelta = new Vector2
-        {
-            x = targetContent.sizeDelta.x,
-            y = (dialogueImagePrefabs.GetComponent<RectTransform>().sizeDelta.y + spacing) * dialogueTitles.Length
-        };
+        SetContentParents(dialogueTitles.Length);
 
         int i = 0;
         foreach (var item in dialogueTitles)
@@ -38,4 +34,5 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
             item.DialoguePrefabs = dialoguePrefabs;
         }
     }
+
 }

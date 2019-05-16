@@ -16,6 +16,16 @@ public abstract class SidebarBase<T> : MonoBehaviour where T : StuffImage
     public float firstOneY = 94;
     public float spacing = 12;
 
+
+    protected void SetContentParents(int stuffsCount)
+    {
+        targetContent.sizeDelta = new Vector2
+        {
+            x = targetContent.sizeDelta.x,
+            y = (StuffImagePrefabs.GetComponent<RectTransform>().sizeDelta.y + spacing) * stuffsCount
+        };
+    }
+
     protected T[] CreateStuffImages(StuffImageData[] stuffDatas)
     {
         float y = firstOneY;

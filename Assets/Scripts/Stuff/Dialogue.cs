@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Dialogue : Stuff
 {
-    public void SetText(string text)
+    public virtual void SetText(string text)
     {
-        transform.Find("InputField").GetComponent<InputField>().text = text;
+        GetComponentInChildren<Text>().text = text;
     }
 }

@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Image))]
 public class StageMaster : MonoBehaviour
 {
-    public Dialogue dialoguePrefabs;
     public RectTransform stageContent;
     public Text notingText;
 
@@ -20,7 +19,7 @@ public class StageMaster : MonoBehaviour
     {
         Instance = this;
 
-        InitializeStages();
+        //InitializeStages();
 
         InitializeStuffs();
 
@@ -42,18 +41,18 @@ public class StageMaster : MonoBehaviour
         m_StageStuffsParents = stuffs.transform;
     }
 
-    private void InitializeStages()
-    {
-        for (int i = 0; i < stageContent.childCount; i++)
-        {
-            stageContent.GetChild(i).gameObject.AddComponent<Stage>().StageMaster = this;
-        }
-    }
+    //private void InitializeStages()
+    //{
+    //    for (int i = 0; i < stageContent.childCount; i++)
+    //    {
+    //        stageContent.GetChild(i).gameObject.AddComponent<Stage>().StageMaster = this;
+    //    }
+    //}
 
-    public void SetStage(Stage stage)
+    public void SetStage(Sprite sprite)
     {
         notingText.gameObject.SetActive(false);
-        m_StageImage.sprite = stage.Image.sprite;
+        m_StageImage.sprite = sprite;
     }
 
     public void Add(Stuff stuff)

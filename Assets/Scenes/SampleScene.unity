@@ -745,7 +745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &601758737
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1310,8 +1310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66cffd8f43f26741b9f6360b1107a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialoguePrefabs: {fileID: 897267587082079510, guid: d02f5d0e3e221cb4d947fb4dd23f3fd1,
-    type: 3}
   stageContent: {fileID: 498544616}
   notingText: {fileID: 1749855796}
 --- !u!114 &745315407
@@ -1340,6 +1338,7 @@ GameObject:
   - component: {fileID: 796004752}
   - component: {fileID: 796004751}
   - component: {fileID: 796004754}
+  - component: {fileID: 796004755}
   m_Layer: 5
   m_Name: Persons
   m_TagString: Untagged
@@ -1453,9 +1452,21 @@ MonoBehaviour:
   spacing: 12
   stuffImagePrefabs: {fileID: 6190633292333912594, guid: e2e4c86fd02d5504ea263488e60b721a,
     type: 3}
-  stuffDatas:
-  - name: "\u7ECF\u7406"
-    sprite: {fileID: 21300000, guid: 667dcaf349267fb40a6adf4e675ccf52, type: 3}
+--- !u!114 &796004755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796004749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad2049f66aecf64ca0a40c2d0be27ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchPatterns:
+  - '*.png'
+  - '*.jpg'
 --- !u!1 &825004213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1908,7 +1919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1265950003
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2293,6 +2304,7 @@ GameObject:
   - component: {fileID: 1498402939}
   - component: {fileID: 1498402938}
   - component: {fileID: 1498402937}
+  - component: {fileID: 1498402940}
   m_Layer: 5
   m_Name: Scenes
   m_TagString: Untagged
@@ -2389,6 +2401,32 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1498402940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498402935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d40e5506070486541a5b2fd6b1cb9a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetContent: {fileID: 498544616}
+  firstOneY: -53
+  spacing: 12
+  sceneImage: {fileID: 794087370048365968, guid: 1f8ad796d7e928e45b984a55f0950a63,
+    type: 3}
+  sceneImageDatas:
+  - name: "\u603B\u573A\u666F"
+    sprite: {fileID: 21300000, guid: fddf2237de4bba44dae797f8ab4b5996, type: 3}
+  - name: "\u5927\u5385"
+    sprite: {fileID: 21300000, guid: 6444e5915caa79841be8d2bd1df3694c, type: 3}
+  - name: "\u5458\u5DE5\u529E\u516C\u533A"
+    sprite: {fileID: 21300000, guid: 71659b10f123e5e469a2dcb192eb1747, type: 3}
+  - name: "\u7ECF\u7406\u529E\u516C\u5BA4"
+    sprite: {fileID: 21300000, guid: 7a604d349253282429df8c512f258dc4, type: 3}
 --- !u!1 &1528596378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,7 +2737,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2026949597
 RectTransform:
   m_ObjectHideFlags: 0

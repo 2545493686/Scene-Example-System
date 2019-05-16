@@ -18,7 +18,7 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
 
         StuffImageData[] stuffDatas = new StuffImageData[dialogueTitles.Length];
 
-        SetContentParents(dialogueTitles.Length);
+        //SetContentParentHeight(dialogueTitles.Length);
 
         int i = 0;
         foreach (var item in dialogueTitles)

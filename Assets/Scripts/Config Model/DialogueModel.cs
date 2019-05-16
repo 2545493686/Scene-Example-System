@@ -8,30 +8,26 @@ public class DialogueModel : ConfigModelBase<string>
 {
     protected override string ConfigFolderName => "Dialogue";
 
-    //private string GetStuffConfigPath(StuffImageData stuffData)
-    //{
-    //    return ConfigPath + "\\" + stuffData.name + ".txt";
-    //}
+    protected override Dictionary<string, string> Datas => datas;
+    Dictionary<string, string> datas;
 
-    protected override InitializeData[] Initialize()
+    private void Awake()
     {
-        //Dictionary<string, string> ret = new Dictionary<string, string>();
+        Initialize();
+    }
 
-        DirectoryInfo root = new DirectoryInfo(ConfigPath);
-        FileInfo[] files = root.GetFiles("*.txt");
-        InitializeData[] ret = new InitializeData[files.Length];
-        for (int i = 0; i < files.Length; i++)
+    protected void Initialize()
+    {
+        datas = new Dictionary<string, string>();
+        var files = GetAllFiles("*.txt");
+
+        foreach (var item in files)
         {
-            //ret.Add(item.Name.Substring(0, item.Name.Length - 4), File.ReadAllText(item.FullName, Encoding.GetEncoding("gb2312")));
-
-            FileInfo item = files[i];
-            ret[i] = new InitializeData
-            {
-                title = item.Name.Substring(0, item.Name.Length - 4),
-                data = File.ReadAllText(item.FullName, Encoding.GetEncoding("gb2312"))
-            };
+            datas.Add
+            (
+                key: item.Name.Substring(0, item.Name.Length - 4),
+                value: File.ReadAllText(item.FullName, Encoding.GetEncoding("gb2312"))
+            );
         }
-
-        return ret;
     }
 }

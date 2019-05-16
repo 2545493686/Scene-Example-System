@@ -13,11 +13,11 @@ public abstract class SidebarBase<T> : MonoBehaviour where T : StuffImage
     public abstract T StuffImagePrefabs { get; }
 
     public RectTransform targetContent;
-    public float firstOneY = 94;
+    public float firstOneY = -53;
     public float spacing = 12;
 
 
-    protected void SetContentParents(int stuffsCount)
+    private void SetContentParentHeight(int stuffsCount)
     {
         targetContent.sizeDelta = new Vector2
         {
@@ -28,6 +28,8 @@ public abstract class SidebarBase<T> : MonoBehaviour where T : StuffImage
 
     protected T[] CreateStuffImages(StuffImageData[] stuffDatas)
     {
+        SetContentParentHeight(stuffDatas.Length);
+
         float y = firstOneY;
 
         T[] rets = new T[stuffDatas.Length];

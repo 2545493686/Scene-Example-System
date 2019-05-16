@@ -11,9 +11,9 @@ public struct StuffImageData
     public Sprite sprite;
 }
 
-public class StuffImage : MonoBehaviour, IPointerDownHandler
+public class StuffImage : MonoBehaviour, IPointerClickHandler
 {
-    public float ScreenRatio { get; set; } = 0.03f;
+    readonly float c_ScreenRatio = 0.15f;
 
     public StuffImageData Data
     {
@@ -48,12 +48,7 @@ public class StuffImage : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
-    {
-        OnPointerDown();
-    }
-
-    protected virtual void OnPointerDown()
+    protected virtual void OnPointerClick()
     {
         GameObject @object = new GameObject(Data.name);
 
@@ -64,8 +59,13 @@ public class StuffImage : MonoBehaviour, IPointerDownHandler
         image.sprite = Data.sprite;
         image.SetNativeSize();
 
-        @object.transform.localScale *= Screen.width / image.preferredWidth * ScreenRatio;
+        @object.transform.localScale *= Screen.height / image.preferredHeight * c_ScreenRatio;
 
         StageMaster.Instance.Add(stuff);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnPointerClick();
     }
 }

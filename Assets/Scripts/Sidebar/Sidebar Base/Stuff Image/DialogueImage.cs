@@ -8,7 +8,7 @@ public class DialogueImage : StuffImage
     public Dialogue DialoguePrefabs { get; set; }
     public string Content { get; set; }
 
-    protected override void OnPointerDown()
+    protected override void OnPointerClick()
     {
         var dialogue = Instantiate(DialoguePrefabs);
         dialogue.SetText(Content);

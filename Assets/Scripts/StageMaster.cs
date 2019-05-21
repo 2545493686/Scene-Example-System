@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(RawImage))]
-public class StageMaster : MonoBehaviour
+public class StageMaster : MonoBehaviour, IPointerDownHandler
 {
     public RectTransform stageContent;
     public Text notingText;
@@ -76,4 +76,8 @@ public class StageMaster : MonoBehaviour
         }
     }
 
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    {
+        Stuff.ClearSelectedStuff();
+    }
 }

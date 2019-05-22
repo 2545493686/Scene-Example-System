@@ -48,7 +48,14 @@ public class DialogueContainer : Stuff
         {
             var dialogue = Instantiate(dialoguePrefab);
             dialogue.SetText(content);
-            StageMaster.Instance.Add(dialogue);
+            //Vector2 size = dialogue.GetComponent<RectTransform>().sizeDelta;
+            dialogue.transform.position = new Vector3
+            {
+                x = transform.position.x - 140,
+                y = transform.position.y + 50 + (100 * (bottonClone.Index)),
+            };
+            dialogue.transform.parent = transform;
+            //StageMaster.Instance.Add(dialogue, false);
         });
 
         m_Dialogues.Add(bottonClone);

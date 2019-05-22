@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6857196e46dfd94f919103265772a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialoguePrefab: {fileID: 897267587082079510, guid: d02f5d0e3e221cb4d947fb4dd23f3fd1,
+  dialoguePrefab: {fileID: 6506628376047372617, guid: c86be9fec16efb940a7259be71c1557d,
     type: 3}
   buttonPrefab: {fileID: 110234047901980348}
   countText: {fileID: 110234048267900947}

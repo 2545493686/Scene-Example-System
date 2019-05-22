@@ -7,16 +7,24 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler
 {
-    public static Stuff SelectedStuff { get; private set; }
-
-    public static void ClearSelectedStuff()
-    {
-        SelectedStuff = null;
-    }
+    public static Stuff SelectedStuff { get; set; }
 
     public StuffImageData StuffData { get; set; }
 
-    protected RectTransform m_RectTransform;
+    protected RectTransform RectTransform
+    {
+        get
+        {
+            if (!_RectTransform)
+            {
+                _RectTransform = GetComponent<RectTransform>();
+            }
+            return _RectTransform;
+        }
+    }
+
+
+    RectTransform _RectTransform;
 
     Vector3 m_SelectedPosition;
     Vector3 m_Revise;
@@ -38,17 +46,12 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         m_IsPointerEnter = false;
-        m_Selected = false;
+        //m_Selected = false;
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
         m_Selected = false;
-    }
-
-    protected virtual void Start()
-    {
-        m_RectTransform = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -76,7 +79,7 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
     {
         if (m_Selected && Input.mousePosition != m_SelectedPosition)
         {
-            m_RectTransform.position = Input.mousePosition + m_Revise;
+            RectTransform.position = Input.mousePosition + m_Revise;
         }
     }
 }

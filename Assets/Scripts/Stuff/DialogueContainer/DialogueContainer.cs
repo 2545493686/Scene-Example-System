@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class DialogueContainer : Stuff
 {
-    public DialogueContainerButton button;
+    public Dialogue dialoguePrefab;
+    public DialogueContainerButton buttonPrefab;
     public Text countText;
+
     public float spacing = 1.8f;
 
     public DialogueModel DialogueModel { get; set; }
@@ -18,33 +20,36 @@ public class DialogueContainer : Stuff
 
     int m_ButtonCount = 0;
 
-    protected override void Start()
+    void OnEnable()
     {
         m_Dialogues = new List<DialogueContainerButton>();
 
         m_Content = transform.Find("Content");
 
-        m_ButtonRect = button.GetComponent<RectTransform>();
-
-        base.Start();
+        m_ButtonRect = buttonPrefab.GetComponent<RectTransform>();
     }
 
     protected override void Update()
     {
-
-
         base.Update();
     }
 
-    public void AddDialogue(string title)
+    public void AddDialogue(string title, string content)
     {
-        m_RectTransform.sizeDelta += new Vector2 { y = m_ButtonRect.rect.height + spacing };
+        RectTransform.sizeDelta += new Vector2 { y = m_ButtonRect.rect.height + spacing };
 
-        var bottonClone = Instantiate(button, m_Content);
+        var bottonClone = Instantiate(buttonPrefab, m_Content);
 
         bottonClone.Index = m_ButtonCount;
         bottonClone.name = title;
         bottonClone.transform.GetComponentInChildren<Text>().text = title;
+
+        bottonClone.Button.onClick.AddListener(() => 
+        {
+            var dialogue = Instantiate(dialoguePrefab);
+            dialogue.SetText(content);
+            StageMaster.Instance.Add(dialogue);
+        });
 
         m_Dialogues.Add(bottonClone);
 
@@ -62,7 +67,7 @@ public class DialogueContainer : Stuff
 
     public void DelDialogue(int index)
     {
-        m_RectTransform.sizeDelta -= new Vector2 { y = m_ButtonRect.rect.height + spacing };
+        RectTransform.sizeDelta -= new Vector2 { y = m_ButtonRect.rect.height + spacing };
 
         Destroy(m_Dialogues[index].gameObject);
         m_Dialogues.RemoveAt(index);

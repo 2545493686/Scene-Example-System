@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(DialogueModel))]
 public class EtiquettesSidebar : SidebarBase<DialogueImage>
 {
-    public Dialogue dialoguePrefabs;
+    public DialogueContainer dialoguePrefabs;
     public DialogueImage dialogueImagePrefabs;
 
     public override DialogueImage StuffImagePrefabs => dialogueImagePrefabs;
@@ -32,7 +32,7 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
         {
             item.Content = dialogueModel.GetData(item.Data.name);
             item.DialoguePrefabs = dialoguePrefabs;
+
         }
     }
-
 }

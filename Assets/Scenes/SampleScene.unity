@@ -1351,6 +1351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66cffd8f43f26741b9f6360b1107a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arrayPrefab: {fileID: 261579709, guid: 5963b8348bae0314b99ab24f772f4e36, type: 3}
   stageContent: {fileID: 498544616}
   notingText: {fileID: 1749855796}
 --- !u!114 &745315407
@@ -1714,7 +1715,7 @@ MonoBehaviour:
   targetContent: {fileID: 1393942775}
   firstOneY: -53
   spacing: 12
-  dialoguePrefabs: {fileID: 6506628376047372617, guid: c86be9fec16efb940a7259be71c1557d,
+  dialoguePrefabs: {fileID: 110234048182129677, guid: f5efb2d9b491d0f488940d0e120cd443,
     type: 3}
   dialogueImagePrefabs: {fileID: 3800965607216290370, guid: 2ab3c2d76e9e735498970b93c9398485,
     type: 3}

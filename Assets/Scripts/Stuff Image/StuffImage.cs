@@ -9,6 +9,18 @@ public struct StuffImageData
 {
     public string name;
     public Texture texture;
+
+    public string GetRealName()
+    {
+        if (name.Contains("-"))
+        {
+            if (int.TryParse(name.Substring(0, name.IndexOf('-')), out int result))
+            {
+                name = name.Substring(name.IndexOf('-') + 1, name.Length - (name.IndexOf('-') + 1));
+            }
+        }
+        return name;
+    }
 }
 
 public class StuffImage : MonoBehaviour, IPointerClickHandler
@@ -65,17 +77,7 @@ public class StuffImage : MonoBehaviour, IPointerClickHandler
     {
         var text = transform.Find("Text").GetComponent<Text>();
 
-        string name = Data.name;
-
-        if (name.Contains("-"))
-        {
-            if (int.TryParse(name.Substring(0, name.IndexOf('-')), out int result))
-            {
-                name = name.Substring(name.IndexOf('-') + 1, name.Length - (name.IndexOf('-') + 1));
-            }
-        }
-
-        text.text = name;
+        text.text = Data.GetRealName();
 
         if (!Data.texture)
         {

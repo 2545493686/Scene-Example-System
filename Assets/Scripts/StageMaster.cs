@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(RawImage))]
 public class StageMaster : MonoBehaviour, IPointerDownHandler
 {
+    public Array arrayPrefab;
     public RectTransform stageContent;
     public Text notingText;
 
@@ -14,6 +15,10 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
 
     Transform m_StageStuffsParents;
     RawImage m_StageImage;
+
+    float clickTime;
+
+    const float c_MaxClickTime = 0.2f;
 
     private void Start()
     {
@@ -26,42 +31,49 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
         m_StageImage = GetComponent<RawImage>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (Time.time - clickTime < c_MaxClickTime)
+            {
+                OnDoubleClick();
+            }
+            clickTime = Time.time;
+        }
+    }
+
+    private void OnDoubleClick()
+    {
+        var array = Instantiate(arrayPrefab);
+        array.Move = true;
+        array.transform.position = Input.mousePosition;
+        Add(array, false);
+    }
+
     private void InitializeStuffs()
     {
-        //foreach (var stuff in stuffContents)
-        //{
-        //    for (int i = 0; i < stuff.childCount; i++)
-        //    {
-        //        stuff.GetChild(i).gameObject.AddComponent<StuffImage>().StageMaster = this;
-        //    }
-        //}
-
         GameObject stuffs = new GameObject("Stuffs");
         stuffs.transform.SetParent(transform);
         m_StageStuffsParents = stuffs.transform;
     }
 
-    //private void InitializeStages()
-    //{
-    //    for (int i = 0; i < stageContent.childCount; i++)
-    //    {
-    //        stageContent.GetChild(i).gameObject.AddComponent<Stage>().StageMaster = this;
-    //    }
-    //}
-
     public void SetStage(Texture texture)
     {
         notingText.gameObject.SetActive(false);
         m_StageImage.texture = texture;
-        //m_StageImage.sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
     }
 
-    public void Add(Stuff stuff)
+    public void Add(Stuff stuff, bool resetPosition = true)
     {
         RectTransform rect = stuff.GetComponent<RectTransform>();
 
         rect.SetParent(m_StageStuffsParents);
-        rect.position = m_StageImage.GetComponent<RectTransform>().position;
+
+        if (resetPosition)
+        {
+            rect.position = m_StageImage.GetComponent<RectTransform>().position;
+        }
     }
 
     public void Clear()
@@ -78,6 +90,6 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        Stuff.ClearSelectedStuff();
+        Stuff.SelectedStuff = null;
     }
 }

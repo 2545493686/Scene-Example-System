@@ -2,10 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class DialogueContainerButton : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 {
     public DialogueContainer dialogueContainer;
+
+    public Button Button
+    {
+        get
+        {
+            if (!_Button)
+            {
+                _Button = GetComponent<Button>();
+            }
+            return _Button;
+        }
+    }
+
+    Button _Button;
+
 
     public int Index { get; set; }
 

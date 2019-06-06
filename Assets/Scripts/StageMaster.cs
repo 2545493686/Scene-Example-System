@@ -10,6 +10,7 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
     public Array arrayPrefab;
     public RectTransform stageContent;
     public Text notingText;
+    public Text title;
 
     public static StageMaster Instance;
 
@@ -58,10 +59,11 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
         m_StageStuffsParents = stuffs.transform;
     }
 
-    public void SetStage(Texture texture)
+    public void SetStage(Texture texture, string text)
     {
         notingText.gameObject.SetActive(false);
         m_StageImage.texture = texture;
+        title.text = text;
     }
 
     public void Add(Stuff stuff, bool resetPosition = true)

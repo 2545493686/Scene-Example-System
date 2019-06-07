@@ -4,23 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-[System.Serializable]
-public struct ImageGridData
-{
-    public string fileName;
-    public Texture texture;
 
-    public string GetRealName()
-    {
-        return ConfigManager.GetRealName(fileName);
-    }
-}
 
 public class ImageGrid : MonoBehaviour, IPointerClickHandler
 {
     public float ScreenRatio { get; set; } = 0.05f;
 
-    public ImageGridData Data
+    public StuffData Data
     {
         get => _Data;
         set
@@ -32,7 +22,7 @@ public class ImageGrid : MonoBehaviour, IPointerClickHandler
             SetImage();
         }
     }
-    ImageGridData _Data;
+    StuffData _Data;
 
     private void SetImage()
     {
@@ -81,18 +71,7 @@ public class ImageGrid : MonoBehaviour, IPointerClickHandler
 
     protected virtual void OnPointerClick()
     {
-        GameObject @object = new GameObject(Data.fileName);
-
-        var stuff = @object.AddComponent<Stuff>();
-        stuff.StuffData = Data;
-
-        RawImage image = @object.AddComponent<RawImage>();
-        image.texture = Data.texture;
-        image.SetNativeSize();
-
-        @object.transform.localScale *= Screen.height / image.texture.height * ScreenRatio;
-
-        SceneMaster.Instance.Add(stuff);
+        SceneMaster.Instance.Add(Stuff.Instantiate(Data, ScreenRatio));
     }
 
     public void OnPointerClick(PointerEventData eventData)

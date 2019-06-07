@@ -3,13 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+[System.Serializable]
+public struct StuffData
+{
+    public string fileName;
+    public Texture texture;
+
+    public string GetRealName()
+    {
+        return ConfigManager.GetRealName(fileName);
+    }
+}
 
 [RequireComponent(typeof(RectTransform))]
 public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler
 {
+    public StuffFactoryBase StuffFactory { get; set; }
     public static Stuff SelectedStuff { get; set; }
 
-    public ImageGridData StuffData { get; set; }
+    public StuffData StuffData { get; set; }
 
     protected RectTransform RectTransform
     {
@@ -23,13 +35,23 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         }
     }
 
-
     RectTransform _RectTransform;
 
     Vector3 m_SelectedPosition;
     Vector3 m_Revise;
     bool m_Selected = false;
     bool m_IsPointerEnter = false;
+
+
+    public virtual string ToJson()
+    {
+        return JsonUtility.ToJson(new StuffConfig
+        {
+            stuffFactory = StuffFactory,
+            stuffData = StuffData,
+            screenRatio = 
+        });
+    }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {

@@ -6,7 +6,7 @@ public class ScenesSidebar : SidebarBase<SceneImage>
 {
     public SceneImage sceneImage;
 
-    public ImageGridData[] sceneImageDatas;
+    public StuffData[] sceneImageDatas;
 
     public override SceneImage StuffImagePrefabs => sceneImage;
 

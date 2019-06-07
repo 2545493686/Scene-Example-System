@@ -14,10 +14,10 @@ public class ImageSidebar : SiderbarBase
         m_StuffModel = ConfigManager.GetConfigModel(configFolderName);
         m_StuffModel.AddInitializedAction(() => 
         {
-            List<ImageGridData> stuffDatas = new List<ImageGridData>();
+            List<StuffData> stuffDatas = new List<StuffData>();
             foreach (var item in m_StuffModel.GetAllTitles())
             {
-                stuffDatas.Add(new ImageGridData
+                stuffDatas.Add(new StuffData
                 { 
                     fileName = item,
                     texture = (Texture)m_StuffModel.GetConfig(item)

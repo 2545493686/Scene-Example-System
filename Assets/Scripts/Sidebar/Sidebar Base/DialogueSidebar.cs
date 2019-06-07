@@ -15,14 +15,14 @@ public class DialogueSidebar : SidebarBase<DialogueImage>
     {
         string[] dialogueTitles = ConfigManager.GetAllTitles(configFolderName);
 
-        ImageGridData[] stuffDatas = new ImageGridData[dialogueTitles.Length];
+        StuffData[] stuffDatas = new StuffData[dialogueTitles.Length];
 
         //SetContentParentHeight(dialogueTitles.Length);
 
         int i = 0;
         foreach (var item in dialogueTitles)
         {
-            stuffDatas[i++] = new ImageGridData { fileName = item };
+            stuffDatas[i++] = new StuffData { fileName = item };
         }
 
         DialogueImage[] dialogueImages = CreateStuffImages(stuffDatas);

@@ -48,7 +48,7 @@ public class SceneMaster : MonoBehaviour, IPointerDownHandler
 
     public void SaveStage()
     {
-        Debug.Log(JsonUtility.ToJson(m_StageData));
+        m_StageData.sceneMaster = this;
     }
 
     public void SetStage(string fileName)
@@ -71,6 +71,7 @@ public class SceneMaster : MonoBehaviour, IPointerDownHandler
             rect.position = m_StageImage.GetComponent<RectTransform>().position;
         }
     }
+
     public void Clear()
     {
         m_StageImage.texture = null;
@@ -107,5 +108,6 @@ public class SceneMaster : MonoBehaviour, IPointerDownHandler
     struct SceneData
     {
         public string sceneFileName;
+        public SceneMaster sceneMaster;
     }
 }

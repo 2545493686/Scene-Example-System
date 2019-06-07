@@ -28,7 +28,7 @@ public abstract class SidebarBase<T> : MonoBehaviour where T : ImageGrid
         };
     }
 
-    protected T[] CreateStuffImages(ImageGridData[] stuffDatas)
+    protected T[] CreateStuffImages(StuffData[] stuffDatas)
     {
         SetContentParentHeight(stuffDatas.Length);
 
@@ -38,14 +38,14 @@ public abstract class SidebarBase<T> : MonoBehaviour where T : ImageGrid
 
         for (int i = 0; i < stuffDatas.Length; i++)
         {
-            ImageGridData stuffData = stuffDatas[i];
+            StuffData stuffData = stuffDatas[i];
             rets[i] = CreateStuffImage(ref y, stuffData);
         }
 
         return rets;
     }
 
-    private T CreateStuffImage(ref float y, ImageGridData stuffData)
+    private T CreateStuffImage(ref float y, StuffData stuffData)
     {
         T stuffImage = Instantiate(StuffImagePrefabs);
         stuffImage.transform.SetParent(targetContent);

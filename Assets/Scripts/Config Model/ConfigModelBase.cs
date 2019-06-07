@@ -2,10 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class ConfigModelBase<T> : MonoBehaviour
+public interface IConfigModel
 {
-    protected abstract string ConfigFolderName { get; }
+    object GetConfig(string title);
+    string GetFolderName();
+    string[] GetAllTitles();
+    void AddInitializedAction(UnityAction action);
+}
+
+public abstract class ConfigModelBase<T> : MonoBehaviour, IConfigModel
+{
+    protected abstract string FolderName { get; }
 
     protected abstract Dictionary<string, T> Datas { get; }
 
@@ -18,31 +27,24 @@ public abstract class ConfigModelBase<T> : MonoBehaviour
                 Directory.CreateDirectory(_ConfigPath);
             }
 
-            if (!Directory.Exists(_ConfigPath + "\\" + ConfigFolderName))
+            if (!Directory.Exists(_ConfigPath + "\\" + FolderName))
             {
-                Directory.CreateDirectory(_ConfigPath + "\\" + ConfigFolderName);
+                Directory.CreateDirectory(_ConfigPath + "\\" + FolderName);
             }
 
-            return _ConfigPath + "\\" + ConfigFolderName;
+            return _ConfigPath + "\\" + FolderName;
         }
     }
+
+    UnityEvent m_OnInitialized = new UnityEvent();
     string _ConfigPath = System.Environment.CurrentDirectory + "\\Config";
 
-    //protected virtual void Awake()
-    //{
-    //    StartCoroutine(Initialize());
-    //}
+    protected void Awake()
+    {
+        Initialize(m_OnInitialized);
+    }
 
-    //private IEnumerator Initialize()
-    //{
-    //    yield return Initialize(out InitializeData[] initializeDatas);
-
-    //    Datas = new Dictionary<string, T>();
-    //    foreach (var item in initializeDatas)
-    //    {
-    //        Datas.Add(item.title, item.data);
-    //    }
-    //}
+    protected abstract void Initialize(UnityEvent onInitialized);
 
     public string[] GetAllTitles()
     {
@@ -83,7 +85,7 @@ public abstract class ConfigModelBase<T> : MonoBehaviour
         return int.TryParse(a.Substring(0, a.IndexOf('-')), out result);
     }
 
-    public T GetData(string title)
+    public T GetConfig(string title)
     {
         return Datas[title];
     }
@@ -93,9 +95,28 @@ public abstract class ConfigModelBase<T> : MonoBehaviour
         return new DirectoryInfo(ConfigPath).GetFiles(searchPattern);
     }
 
-    //protected struct InitializeData
-    //{
-    //    public string title;
-    //    public T data; 
-    //}
+    #region IConfigModel
+
+    object IConfigModel.GetConfig(string title)
+    {
+        return GetConfig(title);
+    }
+
+    string IConfigModel.GetFolderName()
+    {
+        return FolderName;
+    }
+
+    string[] IConfigModel.GetAllTitles()
+    {
+        return GetAllTitles();
+    }
+
+    void IConfigModel.AddInitializedAction(UnityAction action)
+    {
+        m_OnInitialized.AddListener(action);
+    }
+
+    #endregion
 }
+

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DialogueImage : StuffImage
+public class DialogueImage : ImageGrid
 {
     public DialogueContainer DialoguePrefabs { get; set; }
     public string Content { get; set; }

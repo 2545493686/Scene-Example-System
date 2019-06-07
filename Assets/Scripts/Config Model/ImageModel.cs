@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class ImageModel : ConfigModelBase<Texture>
@@ -14,21 +15,19 @@ public class ImageModel : ConfigModelBase<Texture>
         "*.jpg"
     };
 
-    public bool IsLoaded { get; private set; }
-
-    protected override string ConfigFolderName => configFolderName;
+    protected override string FolderName => configFolderName;
 
     protected override Dictionary<string, Texture> Datas => datas;
     Dictionary<string, Texture> datas;
 
     Texture m_TextureData;
 
-    private void Awake()
+    protected override void Initialize(UnityEvent onInitialized)
     {
-        StartCoroutine(Initialize());
+        StartCoroutine(InitializeCoroutine(onInitialized));
     }
 
-    protected IEnumerator Initialize()
+    protected IEnumerator InitializeCoroutine(UnityEvent onInitialized)
     {
         datas = new Dictionary<string, Texture>();
 
@@ -48,7 +47,7 @@ public class ImageModel : ConfigModelBase<Texture>
             }
         }
 
-        IsLoaded = true;
+        onInitialized.Invoke();
     }
 
     private IEnumerator GetSpirteData(FileInfo fileInfo)
@@ -57,10 +56,5 @@ public class ImageModel : ConfigModelBase<Texture>
         yield return webRequest.SendWebRequest();
         m_TextureData = DownloadHandlerTexture.GetContent(webRequest);
         //m_TextureData = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-    }
-
-    private void Start()
-    {
-        Initialize();
     }
 }

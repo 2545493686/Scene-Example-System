@@ -16,6 +16,7 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
 
     Transform m_StageStuffsParents;
     RawImage m_StageImage;
+    StageData m_StageData = new StageData();
 
     float clickTime;
 
@@ -44,6 +45,43 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    public void SaveStage()
+    {
+        Debug.Log(JsonUtility.ToJson(m_StageData));
+    }
+
+    public void SetStage(ImageGridData imageGridData)
+    {
+        notingText.gameObject.SetActive(false);
+        m_StageImage.texture = imageGridData.texture;
+        title.text = imageGridData.GetRealName();
+        m_StageData.sceneTitle = imageGridData.title;
+    }
+
+    public void Add(Stuff stuff, bool resetPosition = true)
+    {
+        RectTransform rect = stuff.GetComponent<RectTransform>();
+
+        rect.SetParent(m_StageStuffsParents);
+
+        if (resetPosition)
+        {
+            rect.position = m_StageImage.GetComponent<RectTransform>().position;
+        }
+    }
+    public void Clear()
+    {
+        m_StageImage.texture = null;
+
+        notingText.gameObject.SetActive(true);
+
+        for (int i = 0; i < m_StageStuffsParents.childCount; i++)
+        {
+            Destroy(m_StageStuffsParents.GetChild(i).gameObject);
+        }
+    }
+
+
     private void OnDoubleClick()
     {
         var array = Instantiate(arrayPrefab);
@@ -59,39 +97,13 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
         m_StageStuffsParents = stuffs.transform;
     }
 
-    public void SetStage(Texture texture, string text)
-    {
-        notingText.gameObject.SetActive(false);
-        m_StageImage.texture = texture;
-        title.text = text;
-    }
-
-    public void Add(Stuff stuff, bool resetPosition = true)
-    {
-        RectTransform rect = stuff.GetComponent<RectTransform>();
-
-        rect.SetParent(m_StageStuffsParents);
-
-        if (resetPosition)
-        {
-            rect.position = m_StageImage.GetComponent<RectTransform>().position;
-        }
-    }
-
-    public void Clear()
-    {
-        m_StageImage.texture = null;
-
-        notingText.gameObject.SetActive(true);
-
-        for (int i = 0; i < m_StageStuffsParents.childCount; i++)
-        {
-            Destroy(m_StageStuffsParents.GetChild(i).gameObject);
-        }
-    }
-
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         Stuff.SelectedStuff = null;
+    }
+
+    struct StageData
+    {
+        public string sceneTitle;
     }
 }

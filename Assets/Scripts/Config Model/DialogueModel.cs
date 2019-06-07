@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
+using UnityEngine.Events;
 
 public class DialogueModel : ConfigModelBase<string>
 {
-    protected override string ConfigFolderName => "Dialogue";
+    public string folderName = "Dialogue";
+    protected override string FolderName => folderName;
 
     protected override Dictionary<string, string> Datas => datas;
     Dictionary<string, string> datas;
 
-    private void Awake()
+    protected override void Initialize(UnityEvent onInitialized)
     {
         Initialize();
+        onInitialized.Invoke();
     }
 
     protected void Initialize()

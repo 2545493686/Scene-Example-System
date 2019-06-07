@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SceneImage : StuffImage
+public class SceneImage : ImageGrid
 {
     protected override void OnPointerClick()
     {
-        StageMaster.Instance.SetStage(Data.texture, Data.GetRealName());
+        Debug.Log(Data.title);
+        StageMaster.Instance.SetStage(Data);
     }
 }

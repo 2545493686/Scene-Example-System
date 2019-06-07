@@ -5,41 +5,41 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 [System.Serializable]
-public struct StuffImageData
+public struct ImageGridData
 {
-    public string name;
+    public string title;
     public Texture texture;
 
     public string GetRealName()
     {
-        if (name.Contains("-"))
+        if (title.Contains("-"))
         {
-            if (int.TryParse(name.Substring(0, name.IndexOf('-')), out int result))
+            if (int.TryParse(title.Substring(0, title.IndexOf('-')), out int result))
             {
-                name = name.Substring(name.IndexOf('-') + 1, name.Length - (name.IndexOf('-') + 1));
+                return title.Substring(title.IndexOf('-') + 1, title.Length - (title.IndexOf('-') + 1));
             }
         }
-        return name;
+        return title;
     }
 }
 
-public class StuffImage : MonoBehaviour, IPointerClickHandler
+public class ImageGrid : MonoBehaviour, IPointerClickHandler
 {
     public float ScreenRatio { get; set; } = 0.05f;
 
-    public StuffImageData Data
+    public ImageGridData Data
     {
         get => _Data;
         set
         {
             _Data = value;
-            gameObject.name = Data.name;
+            gameObject.name = Data.title;
 
             SetText();
             SetImage();
         }
     }
-    StuffImageData _Data;
+    ImageGridData _Data;
 
     private void SetImage()
     {
@@ -88,7 +88,7 @@ public class StuffImage : MonoBehaviour, IPointerClickHandler
 
     protected virtual void OnPointerClick()
     {
-        GameObject @object = new GameObject(Data.name);
+        GameObject @object = new GameObject(Data.title);
 
         var stuff = @object.AddComponent<Stuff>();
         stuff.StuffData = Data;

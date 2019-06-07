@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SiderbarBase : SidebarBase<StuffImage>
+public class SiderbarBase : SidebarBase<ImageGrid>
 {
-    public StuffImage stuffImagePrefabs;
-    public override StuffImage StuffImagePrefabs => stuffImagePrefabs;
+
+    public ImageGrid stuffImagePrefabs;
+    public override ImageGrid StuffImagePrefabs => stuffImagePrefabs;
 }
 
-public abstract class SidebarBase<T> : MonoBehaviour where T : StuffImage
+public abstract class SidebarBase<T> : MonoBehaviour where T : ImageGrid
 {
     public abstract T StuffImagePrefabs { get; }
 
+    public string configFolderName;
     public RectTransform targetContent;
     public float firstOneY = -53;
     public float spacing = 12;
@@ -26,7 +28,7 @@ public abstract class SidebarBase<T> : MonoBehaviour where T : StuffImage
         };
     }
 
-    protected T[] CreateStuffImages(StuffImageData[] stuffDatas)
+    protected T[] CreateStuffImages(ImageGridData[] stuffDatas)
     {
         SetContentParentHeight(stuffDatas.Length);
 
@@ -36,14 +38,14 @@ public abstract class SidebarBase<T> : MonoBehaviour where T : StuffImage
 
         for (int i = 0; i < stuffDatas.Length; i++)
         {
-            StuffImageData stuffData = stuffDatas[i];
+            ImageGridData stuffData = stuffDatas[i];
             rets[i] = CreateStuffImage(ref y, stuffData);
         }
 
         return rets;
     }
 
-    private T CreateStuffImage(ref float y, StuffImageData stuffData)
+    private T CreateStuffImage(ref float y, ImageGridData stuffData)
     {
         T stuffImage = Instantiate(StuffImagePrefabs);
         stuffImage.transform.SetParent(targetContent);

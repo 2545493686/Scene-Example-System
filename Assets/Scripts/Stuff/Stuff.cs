@@ -9,7 +9,7 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
 {
     public static Stuff SelectedStuff { get; set; }
 
-    public StuffImageData StuffData { get; set; }
+    public ImageGridData StuffData { get; set; }
 
     protected RectTransform RectTransform
     {

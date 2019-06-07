@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(DialogueModel))]
-public class EtiquettesSidebar : SidebarBase<DialogueImage>
+public class DialogueSidebar : SidebarBase<DialogueImage>
 {
+
     public DialogueContainer dialoguePrefabs;
     public DialogueImage dialogueImagePrefabs;
 
@@ -12,27 +13,24 @@ public class EtiquettesSidebar : SidebarBase<DialogueImage>
 
     private void Start()
     {
-        DialogueModel dialogueModel = GetComponent<DialogueModel>();
+        string[] dialogueTitles = ConfigManager.GetAllTitles(configFolderName);
 
-        string[] dialogueTitles = dialogueModel.GetAllTitles();
-
-        StuffImageData[] stuffDatas = new StuffImageData[dialogueTitles.Length];
+        ImageGridData[] stuffDatas = new ImageGridData[dialogueTitles.Length];
 
         //SetContentParentHeight(dialogueTitles.Length);
 
         int i = 0;
         foreach (var item in dialogueTitles)
         {
-            stuffDatas[i++] = new StuffImageData { name = item };
+            stuffDatas[i++] = new ImageGridData { title = item };
         }
 
         DialogueImage[] dialogueImages = CreateStuffImages(stuffDatas);
 
         foreach (DialogueImage item in dialogueImages)
         {
-            item.Content = dialogueModel.GetData(item.Data.name);
+            item.Content = (string)ConfigManager.GetConfig(configFolderName, item.Data.title);
             item.DialoguePrefabs = dialoguePrefabs;
-
         }
     }
 }

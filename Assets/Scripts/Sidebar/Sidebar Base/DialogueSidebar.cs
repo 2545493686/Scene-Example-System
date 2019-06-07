@@ -22,14 +22,14 @@ public class DialogueSidebar : SidebarBase<DialogueImage>
         int i = 0;
         foreach (var item in dialogueTitles)
         {
-            stuffDatas[i++] = new ImageGridData { title = item };
+            stuffDatas[i++] = new ImageGridData { fileName = item };
         }
 
         DialogueImage[] dialogueImages = CreateStuffImages(stuffDatas);
 
         foreach (DialogueImage item in dialogueImages)
         {
-            item.Content = (string)ConfigManager.GetConfig(configFolderName, item.Data.title);
+            item.Content = (string)ConfigManager.GetConfig(configFolderName, item.Data.fileName);
             item.DialoguePrefabs = dialoguePrefabs;
         }
     }

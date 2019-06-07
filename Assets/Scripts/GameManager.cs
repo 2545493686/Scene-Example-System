@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            StageMaster.Instance.Clear();
+            SceneMaster.Instance.Clear();
             Application.Quit();
         }
     }

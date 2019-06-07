@@ -7,19 +7,12 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public struct ImageGridData
 {
-    public string title;
+    public string fileName;
     public Texture texture;
 
     public string GetRealName()
     {
-        if (title.Contains("-"))
-        {
-            if (int.TryParse(title.Substring(0, title.IndexOf('-')), out int result))
-            {
-                return title.Substring(title.IndexOf('-') + 1, title.Length - (title.IndexOf('-') + 1));
-            }
-        }
-        return title;
+        return ConfigManager.GetRealName(fileName);
     }
 }
 
@@ -33,7 +26,7 @@ public class ImageGrid : MonoBehaviour, IPointerClickHandler
         set
         {
             _Data = value;
-            gameObject.name = Data.title;
+            gameObject.name = Data.fileName;
 
             SetText();
             SetImage();
@@ -88,7 +81,7 @@ public class ImageGrid : MonoBehaviour, IPointerClickHandler
 
     protected virtual void OnPointerClick()
     {
-        GameObject @object = new GameObject(Data.title);
+        GameObject @object = new GameObject(Data.fileName);
 
         var stuff = @object.AddComponent<Stuff>();
         stuff.StuffData = Data;
@@ -99,7 +92,7 @@ public class ImageGrid : MonoBehaviour, IPointerClickHandler
 
         @object.transform.localScale *= Screen.height / image.texture.height * ScreenRatio;
 
-        StageMaster.Instance.Add(stuff);
+        SceneMaster.Instance.Add(stuff);
     }
 
     public void OnPointerClick(PointerEventData eventData)

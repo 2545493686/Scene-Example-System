@@ -5,18 +5,19 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(RawImage))]
-public class StageMaster : MonoBehaviour, IPointerDownHandler
+public class SceneMaster : MonoBehaviour, IPointerDownHandler
 {
+    public string configFolderName = "Scene";
     public Array arrayPrefab;
     public RectTransform stageContent;
     public Text notingText;
     public Text title;
 
-    public static StageMaster Instance;
+    public static SceneMaster Instance;
 
     Transform m_StageStuffsParents;
     RawImage m_StageImage;
-    StageData m_StageData = new StageData();
+    SceneData m_StageData = new SceneData();
 
     float clickTime;
 
@@ -50,12 +51,13 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
         Debug.Log(JsonUtility.ToJson(m_StageData));
     }
 
-    public void SetStage(ImageGridData imageGridData)
+    public void SetStage(string fileName)
     {
         notingText.gameObject.SetActive(false);
-        m_StageImage.texture = imageGridData.texture;
-        title.text = imageGridData.GetRealName();
-        m_StageData.sceneTitle = imageGridData.title;
+        m_StageImage.texture = (Texture)ConfigManager.GetConfig(configFolderName, fileName);
+        title.text = ConfigManager.GetRealName(fileName);
+
+        m_StageData.sceneFileName = fileName;
     }
 
     public void Add(Stuff stuff, bool resetPosition = true)
@@ -102,8 +104,8 @@ public class StageMaster : MonoBehaviour, IPointerDownHandler
         Stuff.SelectedStuff = null;
     }
 
-    struct StageData
+    struct SceneData
     {
-        public string sceneTitle;
+        public string sceneFileName;
     }
 }

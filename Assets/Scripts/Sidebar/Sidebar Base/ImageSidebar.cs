@@ -19,7 +19,7 @@ public class ImageSidebar : SiderbarBase
             {
                 stuffDatas.Add(new ImageGridData
                 { 
-                    title = item,
+                    fileName = item,
                     texture = (Texture)m_StuffModel.GetConfig(item)
                 });
             }

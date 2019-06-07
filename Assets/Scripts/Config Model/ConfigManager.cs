@@ -49,6 +49,18 @@ public class ConfigManager : MonoBehaviour
         return null;
     }
 
+    public static string GetRealName(string fileName)
+    {
+        if (fileName.Contains("-"))
+        {
+            if (int.TryParse(fileName.Substring(0, fileName.IndexOf('-')), out int result))
+            {
+                return fileName.Substring(fileName.IndexOf('-') + 1, fileName.Length - (fileName.IndexOf('-') + 1));
+            }
+        }
+        return fileName;
+    }
+
     private static void LogErrorNullFolderName(string folderName)
     {
         Debug.LogError($"配置文件名：{folderName}不存在！");

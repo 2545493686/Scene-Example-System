@@ -18,7 +18,7 @@ public class DialogueImage : ImageGrid
         {
             var dialogue = Instantiate(DialoguePrefabs);
             dialogue.AddDialogue(Data.GetRealName(), Content);
-            StageMaster.Instance.Add(dialogue);
+            SceneMaster.Instance.Add(dialogue);
             Stuff.SelectedStuff = dialogue;
         }
     }

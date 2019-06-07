@@ -8,7 +8,6 @@ public class SceneImage : ImageGrid
 {
     protected override void OnPointerClick()
     {
-        Debug.Log(Data.title);
-        StageMaster.Instance.SetStage(Data);
+        SceneMaster.Instance.SetStage(Data.fileName);
     }
 }

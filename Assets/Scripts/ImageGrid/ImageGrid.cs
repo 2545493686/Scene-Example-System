@@ -71,7 +71,10 @@ public class ImageGrid : MonoBehaviour, IPointerClickHandler
 
     protected virtual void OnPointerClick()
     {
-        SceneMaster.Instance.Add(Stuff.Instantiate(Data, ScreenRatio));
+        SceneMaster.Instance.Add(StuffFactory.Instance.Instantiate(new StuffFactory.StuffInstantiateData
+        {
+            fileName = Data.fileName
+        }));
     }
 
     public void OnPointerClick(PointerEventData eventData)

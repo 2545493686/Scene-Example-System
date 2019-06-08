@@ -2,7 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StuffFactoryBase : MonoBehaviour
+public interface IStuffFromJson
 {
-    public abstract Stuff Instantiate(string stuffConfigJson);
+    Stuff Instantiate(string stuffConfigJson);
+}
+
+public abstract class StuffFactoryBase<T> : MonoBehaviour, IStuffFromJson
+{
+    public Stuff Instantiate(string stuffConfigJson)
+    {
+        return Instantiate(JsonUtility.FromJson<T>(stuffConfigJson));
+    }
+
+    public abstract Stuff Instantiate(T stuffInstantiateData);
 }

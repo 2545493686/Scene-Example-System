@@ -3,37 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-interface IStuffConfig
-{
-
-}
-
 public struct StuffConfig
 {
-    public StuffFactoryBase stuffFactory;
-    public StuffData stuffData;
+    public IStuffFromJson stuffFactory;
+    public string instantiateJson;
 }
 
-public class StuffFactory : StuffFactoryBase
+public class StuffFactory : StuffFactoryBase<StuffFactory.StuffInstantiateData>
 {
+    public static StuffFactory Instance;
+
+    public string folderName = "Stuff";
     [Range(0.01f, 1f)]
     public float screenRatio = 0.05f;
 
-    public override Stuff Instantiate(string stuffConfigJson)
+    public struct StuffInstantiateData
     {
-        StuffConfig data = JsonUtility.FromJson<StuffConfig>(stuffConfigJson);
+        public string fileName;
+    }
 
-        GameObject @object = new GameObject(data.stuffData.fileName);
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public override Stuff Instantiate(StuffInstantiateData instantiateData)
+    {
+        GameObject @object = new GameObject(instantiateData.fileName);
+
+        StuffData data = new StuffData
+        {
+            fileName = instantiateData.fileName,
+            texture = (Texture)ConfigManager.GetConfig(folderName, instantiateData.fileName)
+        };
 
         var stuff = @object.AddComponent<Stuff>();
-        stuff.StuffData = data.stuffData;
+        stuff.Data = data;
         stuff.StuffFactory = this;
 
         RawImage image = @object.AddComponent<RawImage>();
-        image.texture = data.stuffData.texture;
+        image.texture = data.texture;
         image.SetNativeSize();
 
-        @object.transform.localScale *= Screen.height / image.texture.height * data.screenRatio;
+        @object.transform.localScale *= Screen.height / image.texture.height * screenRatio;
         return stuff;
     }
 }

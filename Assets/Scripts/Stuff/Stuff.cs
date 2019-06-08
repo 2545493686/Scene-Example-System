@@ -18,10 +18,10 @@ public struct StuffData
 [RequireComponent(typeof(RectTransform))]
 public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler
 {
-    public StuffFactoryBase StuffFactory { get; set; }
+    public IStuffFromJson StuffFactory { get; set; }
     public static Stuff SelectedStuff { get; set; }
 
-    public StuffData StuffData { get; set; }
+    public StuffData Data { get; set; }
 
     protected RectTransform RectTransform
     {
@@ -48,8 +48,10 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         return JsonUtility.ToJson(new StuffConfig
         {
             stuffFactory = StuffFactory,
-            stuffData = StuffData,
-            screenRatio = 
+            instantiateJson = JsonUtility.ToJson(new StuffFactory.StuffInstantiateData
+            {
+                fileName = Data.fileName
+            })
         });
     }
 
@@ -105,3 +107,4 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         }
     }
 }
+

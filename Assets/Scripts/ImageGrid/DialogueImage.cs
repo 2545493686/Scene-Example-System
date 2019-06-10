@@ -16,10 +16,20 @@ public class DialogueImage : ImageGrid
         }
         else
         {
-            var dialogue = Instantiate(DialoguePrefabs);
-            dialogue.AddDialogue(Data.GetRealName(), Content);
+            var dialogue = DialogueFactory.Instance.Instantiate(new DialogueFactory.InstantiateData
+            {
+                dialogueContents = new DialogueContent[]
+                {
+                    new DialogueContent
+                    {
+                        title = Data.GetRealName(),
+                        content = Content
+                    }
+                },
+                worldPoint = SceneMaster.Point
+            });
             SceneMaster.Instance.Add(dialogue);
-            Stuff.SelectedStuff = dialogue;
+            dialogue.SetSelectedStuff();
         }
     }
 }

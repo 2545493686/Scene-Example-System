@@ -71,9 +71,10 @@ public class ImageGrid : MonoBehaviour, IPointerClickHandler
 
     protected virtual void OnPointerClick()
     {
-        SceneMaster.Instance.Add(StuffFactory.Instance.Instantiate(new StuffFactory.StuffInstantiateData
+        SceneMaster.Instance.Add(StuffFactory.Instance.Instantiate(new StuffFactory.InstantiateData
         {
-            fileName = Data.fileName
+            fileName = Data.fileName,
+            worldPoint = SceneMaster.Point
         }));
     }
 

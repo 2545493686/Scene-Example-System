@@ -4,15 +4,34 @@ using UnityEngine;
 
 public interface IStuffFromJson
 {
-    Stuff Instantiate(string stuffConfigJson);
+    Stuff Instantiate(string instantiateJson);
 }
 
-public abstract class StuffFactoryBase<T> : MonoBehaviour, IStuffFromJson
+public struct StuffConfig
 {
-    public Stuff Instantiate(string stuffConfigJson)
+    public IStuffFromJson stuffFactory;
+    public string instantiateJson;
+
+    public Stuff Instantiate()
     {
-        return Instantiate(JsonUtility.FromJson<T>(stuffConfigJson));
+        return stuffFactory.Instantiate(instantiateJson);
+    }
+}
+
+public abstract class StuffFactoryBase<SelfType, InstantiateDataType> : MonoBehaviour, IStuffFromJson 
+    where SelfType : StuffFactoryBase<SelfType, InstantiateDataType>
+{
+    public static SelfType Instance;
+
+    protected virtual void Awake()
+    {
+        Instance = (SelfType)this;
     }
 
-    public abstract Stuff Instantiate(T stuffInstantiateData);
+    public Stuff Instantiate(string instantiateDataJson)
+    {
+        return Instantiate(JsonUtility.FromJson<InstantiateDataType>(instantiateDataJson));
+    }
+
+    public abstract Stuff Instantiate(InstantiateDataType instantiateData);
 }

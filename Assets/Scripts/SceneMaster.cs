@@ -13,7 +13,8 @@ public class SceneMaster : MonoBehaviour, IPointerDownHandler
     public Text notingText;
     public Text title;
 
-    public static SceneMaster Instance;
+    public static SceneMaster Instance { get; private set; }
+    public static Vector3 Point => Instance.transform.position;
 
     Transform m_StageStuffsParents;
     RawImage m_StageImage;
@@ -60,7 +61,7 @@ public class SceneMaster : MonoBehaviour, IPointerDownHandler
         m_StageData.sceneFileName = fileName;
     }
 
-    public void Add(Stuff stuff, bool resetPosition = true)
+    public void Add(Stuff stuff, bool resetPosition = false)
     {
         RectTransform rect = stuff.GetComponent<RectTransform>();
 
@@ -68,7 +69,7 @@ public class SceneMaster : MonoBehaviour, IPointerDownHandler
 
         if (resetPosition)
         {
-            rect.position = m_StageImage.GetComponent<RectTransform>().position;
+            rect.position = m_StageImage.transform.position;
         }
     }
 

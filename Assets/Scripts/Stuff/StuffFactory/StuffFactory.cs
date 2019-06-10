@@ -3,31 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public struct StuffConfig
+public class StuffFactory : StuffFactoryBase<StuffFactory, StuffFactory.InstantiateData>
 {
-    public IStuffFromJson stuffFactory;
-    public string instantiateJson;
-}
-
-public class StuffFactory : StuffFactoryBase<StuffFactory.StuffInstantiateData>
-{
-    public static StuffFactory Instance;
-
     public string folderName = "Stuff";
     [Range(0.01f, 1f)]
     public float screenRatio = 0.05f;
 
-    public struct StuffInstantiateData
+    public struct InstantiateData
     {
         public string fileName;
+        public Vector3 worldPoint;
     }
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    public override Stuff Instantiate(StuffInstantiateData instantiateData)
+    public override Stuff Instantiate(InstantiateData instantiateData)
     {
         GameObject @object = new GameObject(instantiateData.fileName);
 
@@ -39,7 +27,8 @@ public class StuffFactory : StuffFactoryBase<StuffFactory.StuffInstantiateData>
 
         var stuff = @object.AddComponent<Stuff>();
         stuff.Data = data;
-        stuff.StuffFactory = this;
+        stuff.Factory = this;
+        stuff.transform.position = instantiateData.worldPoint;
 
         RawImage image = @object.AddComponent<RawImage>();
         image.texture = data.texture;

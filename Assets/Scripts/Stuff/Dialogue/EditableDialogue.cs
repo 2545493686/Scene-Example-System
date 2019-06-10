@@ -9,4 +9,10 @@ public class EditableDialogue : Dialogue
     {
         GetComponentInChildren<InputField>().text = text;
     }
+
+    public void SetContent(string text)
+    {
+        Debug.Log("set text:" + text);
+        DialogueContainer.SetContent(Index, text);
+    }
 }

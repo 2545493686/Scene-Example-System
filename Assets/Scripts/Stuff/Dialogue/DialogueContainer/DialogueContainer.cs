@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public struct DialogueContent
+{
+    public string title;
+    public string content;
+}
+
 public class DialogueContainer : Stuff
 {
     public Dialogue dialoguePrefab;
@@ -13,25 +19,33 @@ public class DialogueContainer : Stuff
 
     public DialogueModel DialogueModel { get; set; }
 
-    List<DialogueContainerButton> m_Dialogues;
-
+    List<DialogueContainerButton> m_Dialogues = new List<DialogueContainerButton>();
+    List<DialogueContent> m_DialogueContents = new List<DialogueContent>();
     RectTransform m_ButtonRect;
     Transform m_Content;
-
     int m_ButtonCount = 0;
 
     void OnEnable()
     {
-        m_Dialogues = new List<DialogueContainerButton>();
-
         m_Content = transform.Find("Content");
-
         m_ButtonRect = buttonPrefab.GetComponent<RectTransform>();
     }
 
     protected override void Update()
     {
         base.Update();
+    }
+
+    public void SetContent(int index, string text)
+    {
+        var content = m_DialogueContents[index];
+        content.content = text;
+        m_DialogueContents[index] = content;
+    }
+
+    public void AddDialogue(DialogueContent dialogueContent)
+    {
+        AddDialogue(dialogueContent.title, dialogueContent.content);
     }
 
     public void AddDialogue(string title, string content)
@@ -47,18 +61,23 @@ public class DialogueContainer : Stuff
         bottonClone.Button.onClick.AddListener(() => 
         {
             var dialogue = Instantiate(dialoguePrefab);
-            dialogue.SetText(content);
-            //Vector2 size = dialogue.GetComponent<RectTransform>().sizeDelta;
+            dialogue.SetText(m_DialogueContents[bottonClone.Index].content);
+            dialogue.Index = bottonClone.Index;
+            dialogue.DialogueContainer = this;
             dialogue.transform.position = new Vector3
             {
                 x = transform.position.x - 140,
                 y = transform.position.y + 50 + (100 * (bottonClone.Index)),
             };
             dialogue.transform.parent = transform;
-            //StageMaster.Instance.Add(dialogue, false);
         });
 
         m_Dialogues.Add(bottonClone);
+        m_DialogueContents.Add(new DialogueContent
+        {
+            title = title,
+            content = content
+        });
 
         var bottonCloneRect = bottonClone.GetComponent<RectTransform>();
         bottonCloneRect.anchoredPosition = GetCloneButtonPosition();
@@ -78,6 +97,7 @@ public class DialogueContainer : Stuff
 
         Destroy(m_Dialogues[index].gameObject);
         m_Dialogues.RemoveAt(index);
+        m_DialogueContents.RemoveAt(index);
 
         foreach (var item in m_Dialogues)
         {
@@ -95,5 +115,14 @@ public class DialogueContainer : Stuff
         }
 
         countText.text = (--m_ButtonCount).ToString();
+    }
+
+    protected override string ToInstantiateJson()
+    {
+        return JsonUtility.ToJson(new DialogueFactory.InstantiateData
+        {
+            dialogueContents = m_DialogueContents.ToArray(),
+            worldPoint = transform.position
+        });
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 [System.Serializable]
@@ -18,8 +19,9 @@ public struct StuffData
 [RequireComponent(typeof(RectTransform))]
 public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler
 {
-    public IStuffFromJson StuffFactory { get; set; }
     public static Stuff SelectedStuff { get; set; }
+
+    public IStuffFromJson Factory { get; set; }
 
     public StuffData Data { get; set; }
 
@@ -35,23 +37,32 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         }
     }
 
-    RectTransform _RectTransform;
 
+    RectTransform _RectTransform;
     Vector3 m_SelectedPosition;
     Vector3 m_Revise;
     bool m_Selected = false;
     bool m_IsPointerEnter = false;
 
+    public void SetSelectedStuff()
+    {
+        SelectedStuff = this;
+    }
 
-    public virtual string ToJson()
+    public string ToJson()
     {
         return JsonUtility.ToJson(new StuffConfig
         {
-            stuffFactory = StuffFactory,
-            instantiateJson = JsonUtility.ToJson(new StuffFactory.StuffInstantiateData
-            {
-                fileName = Data.fileName
-            })
+            stuffFactory = Factory,
+            instantiateJson = ToInstantiateJson()
+        });
+    }
+
+    protected virtual string ToInstantiateJson()
+    {
+        return JsonUtility.ToJson(new StuffFactory.InstantiateData
+        {
+            fileName = Data.fileName
         });
     }
 

@@ -12,4 +12,10 @@ public class Dialogue : Stuff
     {
         GetComponentInChildren<Text>().text = text;
     }
+
+    protected override void DestroySelf()
+    {
+        DialogueContainer.RemoveDialogue(this);
+        base.DestroySelf();
+    }
 }

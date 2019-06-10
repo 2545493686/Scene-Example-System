@@ -20,9 +20,11 @@ public class DialogueContainer : Stuff
     public float spacing = 1.8f;
 
     public DialogueModel DialogueModel { get; set; }
+    public int DialogueCount => m_Dialogues.Count;
 
-    List<DialogueContainerButton> m_Dialogues = new List<DialogueContainerButton>();
+    List<DialogueContainerButton> m_DialogueButtons = new List<DialogueContainerButton>();
     List<DialogueContent> m_DialogueContents = new List<DialogueContent>();
+    List<Dialogue> m_Dialogues = new List<Dialogue>();
 
     RectTransform m_ButtonRect;
     Transform m_Content;
@@ -39,6 +41,19 @@ public class DialogueContainer : Stuff
     protected override void Update()
     {
         base.Update();
+    }
+
+    public void RemoveDialogue(Dialogue dialogue)
+    {
+        var index = m_Dialogues.IndexOf(dialogue);
+        for (int i = index + 1; i < m_Dialogues.Count; i++)
+        {
+            m_Dialogues[i].transform.position -= new Vector3
+            {
+                y = 100
+            };
+        }
+        m_Dialogues.RemoveAt(index);
     }
 
     public void SetTitle(string text)
@@ -81,12 +96,14 @@ public class DialogueContainer : Stuff
             dialogue.transform.position = new Vector3
             {
                 x = transform.position.x - 140,
-                y = transform.position.y + 50 + (100 * (bottonClone.Index)),
+                y = transform.position.y + 50 + (100 * (DialogueCount)),
             };
             dialogue.transform.parent = transform;
+
+            m_Dialogues.Add(dialogue);
         });
 
-        m_Dialogues.Add(bottonClone);
+        m_DialogueButtons.Add(bottonClone);
         m_DialogueContents.Add(new DialogueContent
         {
             title = title,
@@ -109,23 +126,23 @@ public class DialogueContainer : Stuff
     {
         RectTransform.sizeDelta -= new Vector2 { y = m_ButtonRect.rect.height + spacing };
 
-        Destroy(m_Dialogues[index].gameObject);
-        m_Dialogues.RemoveAt(index);
+        Destroy(m_DialogueButtons[index].gameObject);
+        m_DialogueButtons.RemoveAt(index);
         m_DialogueContents.RemoveAt(index);
 
-        foreach (var item in m_Dialogues)
+        foreach (var item in m_DialogueButtons)
         {
             Debug.Log(item.Index);
         }
 
-        for (int i = index; i < m_Dialogues.Count; i++)
+        for (int i = index; i < m_DialogueButtons.Count; i++)
         {
-            m_Dialogues[i].GetComponent<RectTransform>().anchoredPosition += new Vector2
+            m_DialogueButtons[i].GetComponent<RectTransform>().anchoredPosition += new Vector2
             {
                 y = m_ButtonRect.rect.height + spacing
             };
 
-            m_Dialogues[i].Index = i;
+            m_DialogueButtons[i].Index = i;
         }
 
         countText.text = (--m_ButtonCount).ToString();

@@ -9,6 +9,7 @@ public interface IConfigModel
     object GetConfig(string title);
     string GetFolderName();
     string[] GetAllTitles();
+    string GetConfigPath();
     void AddInitializedAction(UnityAction action);
 }
 
@@ -115,6 +116,11 @@ public abstract class ConfigModelBase<T> : MonoBehaviour, IConfigModel
     void IConfigModel.AddInitializedAction(UnityAction action)
     {
         m_OnInitialized.AddListener(action);
+    }
+
+    string IConfigModel.GetConfigPath()
+    {
+        return ConfigPath;
     }
 
     #endregion

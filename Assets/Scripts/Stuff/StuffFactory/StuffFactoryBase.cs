@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IStuffFromJson
+public abstract class StuffFactoryBase : MonoBehaviour
 {
-    Stuff Instantiate(string instantiateJson);
+    public abstract Stuff Instantiate(string instantiateJson);
 }
 
 public struct StuffConfig
 {
-    public IStuffFromJson stuffFactory;
+    public StuffFactoryBase stuffFactory;
     public string instantiateJson;
 
     public Stuff Instantiate()
@@ -18,7 +18,7 @@ public struct StuffConfig
     }
 }
 
-public abstract class StuffFactoryBase<SelfType, InstantiateDataType> : MonoBehaviour, IStuffFromJson 
+public abstract class StuffFactoryBase<SelfType, InstantiateDataType> : StuffFactoryBase 
     where SelfType : StuffFactoryBase<SelfType, InstantiateDataType>
 {
     public static SelfType Instance;
@@ -28,7 +28,7 @@ public abstract class StuffFactoryBase<SelfType, InstantiateDataType> : MonoBeha
         Instance = (SelfType)this;
     }
 
-    public Stuff Instantiate(string instantiateDataJson)
+    public override Stuff Instantiate(string instantiateDataJson)
     {
         return Instantiate(JsonUtility.FromJson<InstantiateDataType>(instantiateDataJson));
     }

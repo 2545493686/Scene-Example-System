@@ -21,7 +21,7 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
 {
     public static Stuff SelectedStuff { get; set; }
 
-    public IStuffFromJson Factory { get; set; }
+    public StuffFactoryBase Factory { get; set; }
 
     public StuffData Data { get; set; }
 
@@ -49,7 +49,7 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         SelectedStuff = this;
     }
 
-    public string ToJson()
+    public string ToConfigJson()
     {
         return JsonUtility.ToJson(new StuffConfig
         {
@@ -62,7 +62,8 @@ public class Stuff : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
     {
         return JsonUtility.ToJson(new StuffFactory.InstantiateData
         {
-            fileName = Data.fileName
+            fileName = Data.fileName,
+            worldPoint = transform.position
         });
     }
 

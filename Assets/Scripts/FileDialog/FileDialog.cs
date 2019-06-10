@@ -4,12 +4,28 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-class FileDialog
+public class FileDialog
 {
+    [Serializable]
     public struct FilterData
     {
         public string tag;
         public string filter;
+
+        public string GetFilterEnds()
+        {
+            return filter.Substring(filter.IndexOf('.'), filter.Length - filter.IndexOf('.'));
+        }
+    }
+
+    public static bool TryOpen(string dialogTitle, out string filePath, params FilterData[] filterDatas)
+    {
+        filePath = Open(dialogTitle, filterDatas);
+
+        if (filePath == null && filePath == string.Empty)
+            return false;
+        else
+            return true;
     }
 
     public static string Open(string dialogTitle, params FilterData[] filterDatas)
@@ -23,13 +39,31 @@ class FileDialog
         return null;
     }
 
+    public static bool TrySave(string dialogTitle, out string filePath, params FilterData[] filterDatas)
+    {
+        filePath = Save(dialogTitle, filterDatas);
+
+        if (filePath == null && filePath == string.Empty)
+            return false;
+        else
+            return true;
+    }
+
     public static string Save(string dialogTitle, params FilterData[] filterDatas)
     {
         OpenFileName openFileName = GetOpenFileName(dialogTitle, filterDatas);
-
+        
         if (LocalDialog.GetSaveFileName(openFileName))
         {
-            return openFileName.file;
+            string ret = openFileName.file;
+            if (openFileName.filterIndex != 0)
+            {
+                if (!ret.EndsWith(filterDatas[openFileName.filterIndex - 1].GetFilterEnds()))
+                {
+                    ret += filterDatas[openFileName.filterIndex - 1].GetFilterEnds();
+                }
+            }
+            return ret;
         }
         return null;
     }

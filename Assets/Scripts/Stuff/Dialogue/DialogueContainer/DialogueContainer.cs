@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public struct DialogueContent
 {
     public string title;
@@ -11,6 +12,7 @@ public struct DialogueContent
 
 public class DialogueContainer : Stuff
 {
+    public InputField title;
     public Dialogue dialoguePrefab;
     public DialogueContainerButton buttonPrefab;
     public Text countText;
@@ -21,8 +23,11 @@ public class DialogueContainer : Stuff
 
     List<DialogueContainerButton> m_Dialogues = new List<DialogueContainerButton>();
     List<DialogueContent> m_DialogueContents = new List<DialogueContent>();
+
     RectTransform m_ButtonRect;
     Transform m_Content;
+
+    string m_ContainerTitle;
     int m_ButtonCount = 0;
 
     void OnEnable()
@@ -34,6 +39,15 @@ public class DialogueContainer : Stuff
     protected override void Update()
     {
         base.Update();
+    }
+
+    public void SetTitle(string text)
+    {
+        m_ContainerTitle = text;
+        if (title.text != text)
+        {
+            title.text = text;
+        }
     }
 
     public void SetContent(int index, string text)
@@ -122,7 +136,8 @@ public class DialogueContainer : Stuff
         return JsonUtility.ToJson(new DialogueFactory.InstantiateData
         {
             dialogueContents = m_DialogueContents.ToArray(),
-            worldPoint = transform.position
+            worldPoint = transform.position,
+            containerTitle = m_ContainerTitle
         });
     }
 }

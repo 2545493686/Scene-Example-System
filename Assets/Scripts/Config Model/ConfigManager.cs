@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ConfigManager : MonoBehaviour
@@ -65,4 +66,6 @@ public class ConfigManager : MonoBehaviour
     {
         Debug.LogError($"配置文件名：{folderName}不存在！");
     }
+
+
 }

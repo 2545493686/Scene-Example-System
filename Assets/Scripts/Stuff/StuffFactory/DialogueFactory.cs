@@ -9,6 +9,7 @@ public class DialogueFactory : StuffFactoryBase<DialogueFactory, DialogueFactory
     public struct InstantiateData
     {
         public DialogueContent[] dialogueContents;
+        public string containerTitle;
         public Vector3 worldPoint;
     }
 
@@ -19,6 +20,7 @@ public class DialogueFactory : StuffFactoryBase<DialogueFactory, DialogueFactory
         {
             dialogue.AddDialogue(contents.title, contents.content);
         }
+        dialogue.SetTitle(instantiateData.containerTitle);
         dialogue.transform.position = instantiateData.worldPoint;
         dialogue.Factory = this;
         return dialogue;
